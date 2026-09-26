@@ -3812,3 +3812,13 @@ Probed live on PowerPoint for Mac 16.113. The user clicked once inside "platform
 - Nothing selected: `getSelectedDataAsync(Text)` failed with code 1001, "The current selection is not supported."
 
 Implementation: in the highlight branch (non-empty range, one shape), `readSelection` asks `selectedText()`. An empty string means only a cursor, so the whole shape is counted. `null` (unavailable or failed) keeps the range. The help page no longer lists the limitation. PowerPoint for Windows has the same range bug per #6839, and the fix relies on the same common API there, but it hasn't been tested on Windows. The fake's plain-text selection now defaults to the scenario's highlight. New scenario: `cursor`.
+
+## Addendum: second review (2026-09-26)
+
+A review of the changes above (3 lenses, each with an adversarial verifier) confirmed 8 findings, 5 distinct; 10 were rejected. Fixed:
+- A selected empty cell ("\r\n") counts as 0 rather than the whole table. Only "" or null means no selection, and an entirely empty table stays "whole table".
+- The whole-box check for text shapes ignores only paragraph breaks, so an unselected edge space keeps a highlight. The loose comparison remains for tables.
+- The shapes-only retry of the first sync runs only for InvalidArgument. Transient errors reject again, so the refresher retries without losing a highlight, and the preview's "fail" button reaches the error state again.
+- Spec sections 4.3 and 5 are marked as superseded by these addenda. The README explains how to watch the dev log alongside `npm start`.
+
+Re-verified live: the whole multi-paragraph box reads "TextBox 1" (95/611/706); a group reads "Group 4".

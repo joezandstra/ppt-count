@@ -56,6 +56,18 @@ test("a whole table reported as selected text counts as the table, whatever sepa
   assert.equal(snapshot.items[0].kind, "table");
 });
 
+test("highlighting a box's text without its trailing space is still a highlight", async () => {
+  const box = { id: "h", name: "TextBox 8", type: "TextBox", text: "Hello world " };
+  const { snapshot } = await read({ highlight: "Hello world", selected: [box] }, { selectedText: selectedText("Hello world") });
+  assert.equal(snapshot.source, "highlight");
+});
+
+test("a whole box reported with different paragraph breaks still counts as the box", async () => {
+  const box = { id: "p", name: "TextBox 7", type: "TextBox", text: "First line\rSecond line" };
+  const { snapshot } = await read({ highlight: "First line\r\nSecond line", selected: [box] }, { selectedText: selectedText("First line\r\nSecond line") });
+  assert.equal(snapshot.source, "shapes");
+});
+
 test("highlighting all but one word of a box is still a highlight", async () => {
   const { snapshot } = await read({ highlight: "The quick brown fox jumps over the lazy", selected: SCENARIOS.textBox.selected });
   assert.equal(snapshot.source, "highlight");
@@ -216,16 +228,15 @@ test("never uses the APIs that throw on the wrong kind of shape", async () => {
   }
 });
 
-test("a failed first sync is retried once without the text range", async () => {
-  const { PowerPoint, host } = createFakeHost(SCENARIOS.textBox);
+test("a transient first-sync failure rejects, so the caller retries and the highlight isn't lost", async () => {
+  const { PowerPoint, host } = createFakeHost(SCENARIOS.highlight);
   host.failNextSyncs(1);
-  const snapshot = await PowerPoint.run((context) => readSelection(context));
-  assert.deepEqual(snapshot.items[0].texts, ["The quick brown fox jumps over the lazy dog."]);
+  await assert.rejects(PowerPoint.run((context) => readSelection(context)), { code: "GeneralException" });
 });
 
-test("if the retry fails too, the read rejects so the caller can retry later", async () => {
-  const { PowerPoint, host } = createFakeHost(SCENARIOS.textBox);
-  host.failNextSyncs(2);
+test("if the shapes-only retry after a failing text range fails too, the read rejects", async () => {
+  const { PowerPoint, host } = createFakeHost({ highlight: { error: "InvalidArgument" }, selected: SCENARIOS.table.selected });
+  host.failSync(2);
   await assert.rejects(PowerPoint.run((context) => readSelection(context)), { code: "GeneralException" });
 });
 
@@ -290,10 +301,23 @@ test("a whole selected table still counts every cell", async () => {
 });
 
 test("no plain-text selection (empty, missing or unavailable) counts the whole table", async () => {
-  for (const options of [{ selectedText: selectedText("") }, { selectedText: selectedText(null) }, { selectedText: selectedText("  \r\n") }, {}]) {
+  for (const options of [{ selectedText: selectedText("") }, { selectedText: selectedText(null) }, {}]) {
     const { snapshot } = await read(SCENARIOS.table, options);
     assert.equal(snapshot.source, "shapes");
   }
+});
+
+test("selected empty cells count as nothing, not as the whole table", async () => {
+  const { snapshot } = await read({ highlight: { text: null }, selected: SCENARIOS.table.selected }, { selectedText: selectedText("\r\n\r\n") });
+  assert.equal(snapshot.source, "highlight");
+  assert.deepEqual(snapshot.items[0].texts, ["\r\n\r\n"]);
+});
+
+test("an entirely empty table stays 'whole table' whatever is selected in it", async () => {
+  const empty = { id: "e", name: "Table 9", type: "Table", rows: [["", ""], ["", ""]] };
+  const { snapshot } = await read({ highlight: { text: null }, selected: [empty] }, { selectedText: selectedText("\r\n") });
+  assert.equal(snapshot.source, "shapes");
+  assert.equal(snapshot.items[0].kind, "table");
 });
 
 test("a text range that fails to load doesn't break the read", async () => {

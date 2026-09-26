@@ -36,9 +36,11 @@ export async function readSelection(context, { selectedText } = {}) {
   selection.load(SHAPE_FIELDS);
   try {
     await context.sync();
-  } catch {
+  } catch (error) {
     // The text range can fail for text inside table cells (PowerPoint for Mac
     // 16.113 throws InvalidArgument for some loads), so read the shapes on their own.
+    // Anything else is passed on so the caller retries the whole read.
+    if (error?.code !== "InvalidArgument") throw error;
     range = null;
     selection = presentation.getSelectedShapes();
     selection.load(SHAPE_FIELDS);
@@ -70,7 +72,11 @@ export async function readSelection(context, { selectedText } = {}) {
     if (plain === "") return whole;
     // PowerPoint for Mac also reports a whole selected box as "selected text"
     // (seen on 16.113). If the range holds all of the shape's text, it's the shape.
-    return coversAllText(rangeText, whole) ? whole : highlight;
+    // For a text shape, range and frame text come from the same text model, so only
+    // paragraph breaks (never counted) are ignored and an unselected edge space still
+    // makes it a highlight. How cells would be separated for a table is undocumented.
+    const ignore = whole.items[0]?.kind === "text" ? PARAGRAPH_BREAKS : ANY_WHITESPACE;
+    return coversAllText(rangeText, whole, ignore) ? whole : highlight;
   }
   if (shapes.length === 0) return { source: "none", selectedCount: 0, items: [], unsupported: [] };
   const snapshot = await readShapes(context, shapes);
@@ -85,8 +91,10 @@ export async function readSelection(context, { selectedText } = {}) {
 // the highlighted text, the selected cells, or every cell when the whole table is
 // selected. Anything less than the whole table is counted as a highlight.
 function readTable(snapshot, text) {
-  if (typeof text !== "string" || !text.trim() || coversAllText(text, snapshot)) return snapshot;
+  // "" is a cursor in a cell; whitespace (e.g. "\r\n" for a selected empty cell) is a real selection.
+  if (typeof text !== "string" || text === "" || coversAllText(text, snapshot, ANY_WHITESPACE)) return snapshot;
   const [table] = snapshot.items;
+  if (!table.texts.join("").trim()) return snapshot; // an empty table: nothing more to single out
   return {
     source: "highlight",
     selectedCount: 1,
@@ -95,12 +103,15 @@ function readTable(snapshot, text) {
   };
 }
 
-// Compares ignoring whitespace, because how PowerPoint separates paragraphs or
-// table cells in a range's text is undocumented.
-function coversAllText(rangeText, snapshot) {
-  const squash = (text) => text.replace(/\s+/g, "");
+const PARAGRAPH_BREAKS = /[\r\n]+/g;
+// For the plain-text selection, where how PowerPoint separates cells is undocumented.
+const ANY_WHITESPACE = /\s+/g;
+
+// Whether `text` is all of the snapshot's text, ignoring the characters matched by `ignore`.
+function coversAllText(text, snapshot, ignore) {
+  const squash = (value) => value.replace(ignore, "");
   const all = snapshot.items.flatMap((item) => item.texts).join("");
-  return squash(all).length > 0 && squash(rangeText) === squash(all);
+  return squash(all).length > 0 && squash(text) === squash(all);
 }
 
 /**

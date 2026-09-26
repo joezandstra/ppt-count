@@ -91,6 +91,12 @@ export function countChunks(strings) → counts   // sum of countText over each 
 ```
 
 ### 4.3 `selection.js`
+
+> **Updated after live testing.** Steps 1–2 below describe the original design. The shipped behaviour differs in four ways, all recorded in the addenda at the end of `docs/superpowers/plans/2026-09-26-ppt-word-count.md`:
+> - A failing text range (InvalidArgument) triggers a shapes-only retry.
+> - A highlight is checked against the plain-text selection (`getSelectedDataAsync`), so a bare cursor counts the whole box.
+> - A whole selected box reported as a range counts as the box.
+> - With one table selected, the plain-text selection counts text highlighted inside cells.
 ```js
 /** @returns {Promise<SelectionSnapshot>} */
 export async function readSelection(context)
@@ -144,6 +150,8 @@ Sharing options for colleagues, documented in the help page and README:
 Web-only updates reach users automatically. Manifest changes need a `<Version>` bump and a reinstall.
 
 ## 5. Known platform limitations (shown in help)
+
+> **Updated after live testing on PowerPoint for Mac 16.113:** limitations 1 (cursor inside a word) and 5 (partial highlights in table cells) are handled by the plain-text selection. See the plan addenda. They are untested on Windows.
 1. On PowerPoint for Mac and Windows, with the cursor inside a word but nothing highlighted, PowerPoint reports the whole word as "selected" (office-js #6839). The pane then counts that word instead of the whole box. This will be verified on 16.113; mitigate if possible.
 2. With the slide-thumbnail pane hidden, PowerPoint may not report highlighted text (#6813). The whole shape is counted instead.
 3. Charts, SmartArt and embedded objects can't be read.

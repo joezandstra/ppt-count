@@ -69,7 +69,7 @@ Colleagues can't use the local version, so the add-in has to live on the web. Th
 ## For developers
 
 - `npm test`: unit tests (`node --test`, no dependencies needed).
-- `npm run serve`: runs the local server in the foreground, printing each request plus start-up steps and errors reported by the pane (`src/devlog.js`, active on localhost only). It's handy when a pane stays blank. (`npm start` runs the same server in the background with no output.)
+- `npm run serve`: runs the local server in the foreground, printing each request plus start-up steps, reads and errors reported by the pane (`src/devlog.js`, active on localhost only). It's handy when a pane stays blank. `npm start` runs the same server in the background with no output. To watch the log: run `npm stop` first, then `npm run serve` in one Terminal window and `npm start` in another (it reuses the running server and loads the add-in).
 - `npm run validate`: checks `manifest.xml` with Microsoft's online validator.
 - `BASE_URL=https://joezandstra.github.io/ppt-count npm run build`: builds `dist/` for hosting, including `dist/word-count-manifest.xml`.
 - Design and research: [`docs/superpowers/specs/2026-09-26-ppt-word-count-design.md`](docs/superpowers/specs/2026-09-26-ppt-word-count-design.md). Implementation plan: [`docs/superpowers/plans/2026-09-26-ppt-word-count.md`](docs/superpowers/plans/2026-09-26-ppt-word-count.md).
