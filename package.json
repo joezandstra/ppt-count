@@ -1,0 +1,27 @@
+{
+  "name": "ppt-word-count",
+  "version": "1.0.0",
+  "description": "PowerPoint add-in that counts words and characters in the selected text, shapes, tables and groups.",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "certs": "office-addin-dev-certs install --days 365",
+    "serve": "node scripts/serve.mjs",
+    "preview": "node scripts/serve.mjs --http",
+    "sideload": "office-addin-debugging start manifest.xml desktop --app powerpoint --no-debug --dev-server \"node scripts/serve.mjs\" --dev-server-port 3100",
+    "start": "npm run sideload",
+    "stop": "office-addin-debugging stop manifest.xml",
+    "test": "node --test",
+    "validate": "office-addin-manifest validate manifest.xml",
+    "build": "node scripts/build.mjs"
+  },
+  "devDependencies": {
+    "office-addin-debugging": "^7.0.1",
+    "office-addin-dev-certs": "^3.0.1",
+    "office-addin-manifest": "^3.0.1"
+  }
+}
