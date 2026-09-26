@@ -1,8 +1,8 @@
 // Decides when to re-read the selection. It debounces bursts of triggers, runs
-// one read at a time, retries a failed read once, and double-checks a sudden
-// empty selection (PowerPoint occasionally reports one for a moment). This is pure
-// scheduling logic: the caller supplies read() and the callbacks, and timers can
-// be injected for tests.
+// one read at a time, retries a failed (or stuck) read once, and double-checks a
+// sudden empty selection (PowerPoint occasionally reports one for a moment). This
+// is pure scheduling logic: the caller supplies read() and the callbacks, and
+// timers can be injected for tests.
 
 /**
  * @template T
@@ -15,9 +15,20 @@
  *   debounceMs?: number,
  *   retryMs?: number,
  *   confirmEmptyMs?: number,
+ *   timeoutMs?: number,
  * }} options
  */
-export function createRefresher({ read, onResult, onError, isEmpty = () => false, timers = globalThis, debounceMs = 120, retryMs = 300, confirmEmptyMs = 150 }) {
+export function createRefresher({
+  read,
+  onResult,
+  onError,
+  isEmpty = () => false,
+  timers = globalThis,
+  debounceMs = 120,
+  retryMs = 300,
+  confirmEmptyMs = 150,
+  timeoutMs = 10000,
+}) {
   let debounceTimer = null;
   let pollTimer = null;
   let running = false;
@@ -28,12 +39,21 @@ export function createRefresher({ read, onResult, onError, isEmpty = () => false
 
   const wait = (ms) => new Promise((resolve) => timers.setTimeout(resolve, ms));
 
+  // A read that never settles would otherwise block every later read.
+  function attempt() {
+    let timer;
+    const timeout = new Promise((_, reject) => {
+      timer = timers.setTimeout(() => reject(new Error("PowerPoint took too long to answer.")), timeoutMs);
+    });
+    return Promise.race([read(), timeout]).finally(() => timers.clearTimeout(timer));
+  }
+
   async function readWithRetry() {
     try {
-      return await read();
+      return await attempt();
     } catch {
       await wait(retryMs);
-      return read();
+      return attempt();
     }
   }
 

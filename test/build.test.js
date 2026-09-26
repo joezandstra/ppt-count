@@ -29,6 +29,7 @@ test("copies the pane, help page, icons and production manifest, but not dev fil
     "selection.js",
     "refresher.js",
     "help.html",
+    "index.html",
     "assets/icon-16.png",
     "assets/icon-80.png",
     "word-count-manifest.xml",
@@ -46,6 +47,11 @@ test("the production manifest points at the hosting address with its own identit
   assert.ok(!manifest.includes(DEV_ID));
   assert.match(manifest, /<DisplayName DefaultValue="Word Count"\s*\/>/);
   assert.doesNotMatch(manifest, /localhost/i);
+  assert.doesNotMatch(manifest, /\(dev\)|Development manifest/);
+});
+
+test("the site's front page leads to the help and install page", () => {
+  assert.match(read("index.html"), /url=help\.html/);
 });
 
 test("every address in the production manifest has a matching file", () => {

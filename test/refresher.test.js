@@ -159,6 +159,24 @@ test("poll() skips a tick while a read is still running", async () => {
   assert.equal(log.reads, 1);
 });
 
+test("a read that never answers times out, is retried, then reported; later reads still run", async () => {
+  const stuck = deferred();
+  const { refresher, log } = setup([stuck, stuck, "fresh"]);
+  refresher.refreshNow();
+  await flush();
+  mock.timers.tick(10000);
+  await flush();
+  mock.timers.tick(300);
+  await flush();
+  assert.equal(log.reads, 2);
+  mock.timers.tick(10000);
+  await flush();
+  assert.equal(log.errors.length, 1);
+  refresher.refreshNow();
+  await flush();
+  assert.deepEqual(log.results, ["fresh"]);
+});
+
 test("stop() cancels pending and future work", async () => {
   const { refresher, log } = setup(["A"]);
   refresher.poll(1000, () => true);

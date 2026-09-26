@@ -6,6 +6,14 @@ Works in current PowerPoint for Mac (16.105+), Windows (Version 2601+) and Power
 
 ## Try it on this Mac
 
+**Where to type the commands:** open the **Terminal** app and go to the project folder first:
+
+```bash
+cd ~/Developer/PPT-word-char-count
+```
+
+Type every command below in that same window. (On a fresh copy of the project, or on another Mac, first install [Node.js](https://nodejs.org) version 20 or later and run `npm install` once in the project folder.)
+
 You only need to do step 1 once a year.
 
 1. **Trust the local certificate.** PowerPoint only loads add-ins over a secure connection, so your Mac needs to trust a small local certificate. Run the command below. Your Mac asks for your password, possibly once in the terminal (nothing appears as you type; that's normal) and once in a pop-up window.
@@ -14,15 +22,15 @@ You only need to do step 1 once a year.
    npm run certs
    ```
 
-2. **Start the add-in.** This starts a small local web server and opens PowerPoint with the add-in loaded.
+2. **Start the add-in.** This starts a small local web server in the background and opens PowerPoint with the add-in loaded. (If the certificate from step 1 has run out, it asks for your password again and renews it for another year.)
 
    ```bash
    npm start
    ```
 
-   In PowerPoint, choose **Home › Word Count** (it's called **Word Count (dev)** in this local version) and select some text.
+   In PowerPoint, choose **Home › Word Count (dev)** and select some text. ("(dev)" marks this local copy; the version you share with colleagues is just called Word Count.)
 
-3. **When you're done**, stop the server:
+3. **When you're done**, stop the server. It otherwise keeps running until you restart your Mac.
 
    ```bash
    npm stop
@@ -34,7 +42,7 @@ You only need to do step 1 once a year.
 npm run preview
 ```
 
-Then open <http://localhost:3100/dev/preview.html>. This runs the real pane against a pretend PowerPoint, with a menu of example selections.
+Then open <http://localhost:3101/dev/preview.html>. This runs the real pane against a pretend PowerPoint, with a menu of example selections. Press **Ctrl+C** in the Terminal window to stop it.
 
 ## Share it with colleagues
 
@@ -52,9 +60,11 @@ Colleagues can't use the local version, so the add-in has to live on the web. Th
 
 ## Troubleshooting
 
-- **"The development certificate expired" or "No development certificate was found":** run `npm run certs` again.
-- **The pane is blank or shows an old version:** open the small menu at the top of the pane and choose **Clear Web Cache**, then reopen it.
-- **Word Count doesn't appear under Home › Add-ins:** quit PowerPoint completely and run `npm start` again.
+- **`npm start` asks for your Mac password:** that's the yearly certificate renewal. Type your password (nothing appears as you type).
+- **The pane is blank or shows an error after restarting your Mac:** the local server stopped. Run `npm start` again, or `npm stop` to remove the local add-in from PowerPoint.
+- **The pane shows an old version:** open the small menu at the top of the pane and choose **Clear Web Cache**, then reopen it.
+- **Word Count (dev) doesn't appear on the Home tab:** quit PowerPoint completely and run `npm start` again.
+- **"Port 3100 is already in use":** a copy of the server is already running. Run `npm stop`, then `npm start`.
 
 ## For developers
 

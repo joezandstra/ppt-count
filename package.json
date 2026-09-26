@@ -13,7 +13,7 @@
     "serve": "node scripts/serve.mjs",
     "preview": "node scripts/serve.mjs --http",
     "sideload": "office-addin-debugging start manifest.xml desktop --app powerpoint --no-debug --dev-server \"node scripts/serve.mjs\" --dev-server-port 3100",
-    "start": "npm run sideload",
+    "start": "npm run certs && npm run sideload",
     "stop": "office-addin-debugging stop manifest.xml",
     "test": "node --test",
     "validate": "office-addin-manifest validate manifest.xml",

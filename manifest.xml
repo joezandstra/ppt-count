@@ -96,8 +96,8 @@
       </bt:Urls>
       <bt:ShortStrings>
         <bt:String id="GetStarted.Title" DefaultValue="Word Count is ready"/>
-        <bt:String id="Group.Label" DefaultValue="Word Count"/>
-        <bt:String id="Button.Label" DefaultValue="Word Count"/>
+        <bt:String id="Group.Label" DefaultValue="Word Count (dev)"/>
+        <bt:String id="Button.Label" DefaultValue="Word Count (dev)"/>
       </bt:ShortStrings>
       <bt:LongStrings>
         <bt:String id="GetStarted.Description" DefaultValue="Choose Word Count on the Home tab, then select some text, a shape, a table or a group."/>

@@ -40,6 +40,7 @@ export function productionManifest(devManifest, baseUrl) {
     if (!devManifest.includes(required)) throw new Error(`manifest.xml no longer contains ${required}; update scripts/build.mjs to match.`);
   }
   const manifest = devManifest
+    .replace(/<!--\s*Development manifest[\s\S]*?-->/, "<!-- Word Count for PowerPoint. Generated from manifest.xml by scripts/build.mjs. -->")
     .replaceAll(`<AppDomain>${DEV_ORIGIN}</AppDomain>`, `<AppDomain>${new URL(baseUrl).origin}</AppDomain>`)
     .replaceAll(DEV_ORIGIN, baseUrl)
     .replaceAll(DEV_ID, PROD_ID)

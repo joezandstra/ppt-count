@@ -88,7 +88,14 @@ async function readShapes(context, shapes) {
   while (pending.length > 0) {
     const round = pending;
     pending = [];
-    for (const { job, outcome } of await runJobs(context, round, reportUnsupported)) {
+    // Guesses (could this odd shape be a table?) get their own batch: a wrong guess
+    // fails its sync, and would otherwise force every other job in the round to be
+    // retried one at a time.
+    const results = [
+      ...(await runJobs(context, round.filter((job) => !job.guess), reportUnsupported)),
+      ...(await runJobs(context, round.filter((job) => job.guess), reportUnsupported, { guesses: true })),
+    ];
+    for (const { job, outcome } of results) {
       for (const child of outcome.children ?? []) visit(child, job.item);
       if (outcome.next) pending.push(outcome.next);
       if (outcome.unsupported) reportUnsupported(job.shape);
@@ -103,28 +110,39 @@ async function readShapes(context, shapes) {
   };
 }
 
-// Syncs a round of jobs as one batch. When the batch fails, each job is retried
-// on its own; jobs that still fail are reported instead of breaking the count.
-async function runJobs(context, jobs, reportUnsupported) {
+// Syncs a round of jobs as one batch. When the batch fails, each job is retried on
+// its own, so one shape PowerPoint won't read can't hide the rest; those shapes are
+// reported. Two kinds of failure are passed on instead, so the caller retries the
+// whole read:
+// - every job failing on its own too (the problem isn't any particular shape),
+//   unless the jobs are guesses that are expected to fail;
+// - read() throwing after a successful sync, which is a host glitch (a loaded value
+//   that came back missing, office-js #6363), not something about the shape.
+async function runJobs(context, jobs, reportUnsupported, { guesses = false } = {}) {
+  if (jobs.length === 0) return [];
   for (const job of jobs) job.queue();
-  let batchFailed = false;
+  let batchError = null;
   try {
     await context.sync();
-  } catch {
-    batchFailed = true;
+  } catch (error) {
+    batchError = error;
   }
+  if (!batchError) return jobs.map((job) => ({ job, outcome: job.read() }));
+
   const done = [];
+  const failed = [];
   for (const job of jobs) {
+    job.queue();
     try {
-      if (batchFailed) {
-        job.queue();
-        await context.sync();
-      }
-      done.push({ job, outcome: job.read() });
+      await context.sync();
     } catch {
-      reportUnsupported(job.shape);
+      failed.push(job);
+      continue;
     }
+    done.push({ job, outcome: job.read() });
   }
+  if (done.length === 0 && !guesses) throw batchError;
+  for (const job of failed) reportUnsupported(job.shape);
   return done;
 }
 
@@ -151,11 +169,13 @@ function groupJob(shape, item) {
   };
 }
 
-function tableJob(shape, item) {
+// `guess: true` when the shape might not be a table at all (see textFrameJob).
+function tableJob(shape, item, { guess = false } = {}) {
   let table;
   return {
     shape,
     item,
+    guess,
     queue() {
       table = shape.getTable();
       table.load("rowCount,columnCount");
@@ -209,7 +229,8 @@ function textFrameJob(shape, item) {
       const contained = format?.containedType;
       // Tables in content placeholders, and tables on builds that report their
       // type as "Unsupported", have no text frame but can still be read as tables.
-      if (contained === "Table" || shape.type === "Unsupported") return { next: tableJob(shape, item) };
+      if (contained === "Table") return { next: tableJob(shape, item) };
+      if (shape.type === "Unsupported") return { next: tableJob(shape, item, { guess: true }) };
       if (UNREADABLE.has(contained)) return { unsupported: true };
       return {};
     },

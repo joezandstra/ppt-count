@@ -19,6 +19,7 @@ const REQUIRED_API = "1.10";
 const POLL_MS = 1500;
 const STATS = ["words", "characters", "charactersWithSpaces"];
 const KIND_DETAIL = { text: "", highlight: "", table: "Whole table", group: "Whole group" };
+const UNREADABLE_TEXT = "the text in charts, SmartArt and some other objects";
 const numberFormat = new Intl.NumberFormat();
 
 /**
@@ -109,6 +110,9 @@ export function describeSelection({ source, selectedCount, items, unsupported })
     if (selectedCount === 0) {
       return { title: "Nothing selected", detail: "Select a text box, table or group, or highlight some text.", note, empty: true };
     }
+    if (unsupported.length > 0) {
+      return { title: "Can't count this", detail: `PowerPoint doesn't let add-ins read ${UNREADABLE_TEXT}.`, note: "", empty: true };
+    }
     const detail = selectedCount === 1 ? "The selected shape doesn't contain text." : "The selected shapes don't contain text.";
     return { title: "No text to count", detail, note, empty: true };
   }
@@ -122,8 +126,8 @@ export function describeSelection({ source, selectedCount, items, unsupported })
 /** @param {number} count */
 export function unsupportedNote(count) {
   if (count === 0) return "";
-  const what = count === 1 ? "1 selected object can't" : `${count} selected objects can't`;
-  return `${what} be counted: PowerPoint doesn't let add-ins read text in charts, SmartArt and some other objects.`;
+  const what = count === 1 ? "1 object isn't" : `${count} objects aren't`;
+  return `${what} included: PowerPoint doesn't let add-ins read ${UNREADABLE_TEXT}.`;
 }
 
 const HEX_COLOR = /^#?([0-9a-f]{6})$/i;
@@ -175,7 +179,7 @@ const TEMPLATE = `
       <h1 class="context__title">Reading the selection…</h1>
       <p class="context__detail" hidden></p>
     </header>
-    <dl class="stats" aria-live="polite">
+    <dl class="stats">
       <div class="stat stat--words">
         <dt class="stat__label">Words</dt>
         <dd class="stat__value" data-stat="words">–</dd>
@@ -194,10 +198,12 @@ const TEMPLATE = `
       <h2 class="breakdown__title">By shape</h2>
       <ol class="breakdown__list"></ol>
     </section>
-    <p class="status" role="status" hidden>
-      <span>Couldn't read the selection.</span>
-      <button type="button" class="link-button status__retry">Try again</button>
+    <!-- Kept in the page (visually hidden when quiet) so screen readers announce it. -->
+    <p class="status sr-only" role="status">
+      <span class="status__text"></span>
+      <button type="button" class="link-button status__retry" hidden>Try again</button>
     </p>
+    <p class="sr-only announcer" aria-live="polite"></p>
     <p class="notice" hidden></p>
     <footer class="footer">
       <span>Counted the way Microsoft Word counts</span>
@@ -221,8 +227,14 @@ function createView(root) {
   const breakdown = $(".breakdown");
   const list = $(".breakdown__list");
   const status = $(".status");
+  const statusText = $(".status__text");
+  const retry = $(".status__retry");
+  const refresh = $(".footer__refresh");
+  const announcer = $(".announcer");
   const notice = $(".notice");
   let lastRendered = "";
+  let lastAnnounced = "";
+  let announceNext = false;
 
   const setText = (element, text) => {
     element.textContent = text;
@@ -242,28 +254,53 @@ function createView(root) {
     return row;
   };
 
+  const clearError = () => {
+    // Don't strand keyboard focus on a button that's about to disappear.
+    if (status.contains(doc.activeElement)) refresh.focus();
+    statusText.textContent = "";
+    retry.hidden = true;
+    status.classList.add("sr-only");
+  };
+
+  // One spoken sentence for screen readers when the selection changes (or after
+  // Refresh), rather than bare numbers on every update while someone types.
+  const announce = (description, total) => {
+    announcer.textContent = description.empty
+      ? `${description.title}. ${description.detail}`
+      : `${description.title}: ${numberFormat.format(total.words)} words, ${numberFormat.format(total.characters)} characters without spaces, ${numberFormat.format(total.charactersWithSpaces)} with spaces.`;
+  };
+
   return {
     /** @param {Summary} summary */
     render(summary) {
-      status.hidden = true;
-      const key = JSON.stringify(summary);
-      if (key === lastRendered) return; // polling re-reads often; keep the DOM and screen readers quiet
-      lastRendered = key;
+      clearError();
       const description = describeSelection(summary);
-      title.textContent = description.title;
-      setText(detail, description.detail);
-      setText(note, description.note);
-      pane.classList.toggle("is-empty", description.empty);
-      for (const stat of STATS) {
-        values[stat].textContent = description.empty ? "–" : numberFormat.format(summary.total[stat]);
+      const key = JSON.stringify(summary);
+      // Polling re-reads often; only touch the page when something changed.
+      if (key !== lastRendered) {
+        lastRendered = key;
+        title.textContent = description.title;
+        setText(detail, description.detail);
+        setText(note, description.note);
+        pane.classList.toggle("is-empty", description.empty);
+        for (const stat of STATS) {
+          values[stat].textContent = description.empty ? "–" : numberFormat.format(summary.total[stat]);
+        }
+        const rows = summary.items.length >= 2 ? summary.items : [];
+        list.replaceChildren(...rows.map(breakdownRow));
+        breakdown.hidden = rows.length === 0;
       }
-      const rows = summary.items.length >= 2 ? summary.items : [];
-      list.replaceChildren(...rows.map(breakdownRow));
-      breakdown.hidden = rows.length === 0;
+      if (announceNext || description.title !== lastAnnounced) {
+        announce(description, summary.total);
+        lastAnnounced = description.title;
+      }
+      announceNext = false;
     },
 
     showError() {
-      status.hidden = false;
+      statusText.textContent = "Couldn't read the selection.";
+      retry.hidden = false;
+      status.classList.remove("sr-only");
     },
 
     showNotice(text) {
@@ -275,12 +312,16 @@ function createView(root) {
       title.textContent = heading;
       setText(detail, text);
       stats.hidden = true;
-      $(".footer__refresh").hidden = true;
+      refresh.hidden = true;
     },
 
     onRefresh(handler) {
-      $(".footer__refresh").addEventListener("click", handler);
-      $(".status__retry").addEventListener("click", handler);
+      const run = () => {
+        announceNext = true;
+        handler();
+      };
+      refresh.addEventListener("click", run);
+      retry.addEventListener("click", run);
     },
   };
 }

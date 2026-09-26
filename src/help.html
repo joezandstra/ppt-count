@@ -14,7 +14,7 @@
       <h2>Using it</h2>
       <ol>
         <li>On the <strong>Home</strong> tab, choose <strong>Word Count</strong>. A pane opens on the right.</li>
-        <li>Select something. The counts update by themselves.</li>
+        <li>Select something. The counts update by themselves when you change the selection.</li>
       </ol>
       <table class="help__table">
         <thead>
@@ -48,8 +48,8 @@
       <p>The counts follow the same rules as Microsoft Word's Word Count, so you get the same numbers Word would give for the same text.</p>
       <ul>
         <li><strong>Words</strong> are separated by spaces. A hyphenated word (<em>well-known</em>), a web address or a number such as <em>3.14</em> is one word. An en or em dash between words (<em>before—after</em>) splits them. In Chinese and Japanese, each character counts as a word.</li>
-        <li><strong>Characters (no spaces)</strong> are letters, numbers, punctuation and symbols. An emoji counts as one character.</li>
-        <li><strong>Characters (with spaces)</strong> are the same, plus spaces and tabs. Line and paragraph breaks aren't counted.</li>
+        <li><strong>Characters (no spaces)</strong> are letters, numbers, punctuation and symbols. Most emoji count as one character. Emoji with a skin tone, flags and combined emoji (such as families) count as two or more, as they do in Word.</li>
+        <li><strong>Characters (with spaces)</strong> are the same, plus spaces, tabs and line breaks (Shift+Enter, or Enter in a slide title). Paragraph breaks aren't counted.</li>
       </ul>
 
       <h2>Known limitations</h2>
@@ -59,6 +59,7 @@
         <li><strong>Slide thumbnails hidden:</strong> if the slide thumbnails are hidden, PowerPoint may not report highlighted text, and the whole box is counted instead.</li>
         <li><strong>Part of a table cell:</strong> highlighting part of a cell may count the whole table, depending on your version of PowerPoint.</li>
         <li><strong>Slide master and layouts:</strong> PowerPoint doesn't report selections there, so they can't be counted.</li>
+        <li><strong>Typing in PowerPoint on the web:</strong> the counts update when you change the selection, not while you type. Choose <strong>Refresh</strong> after editing. (On Mac and Windows they catch up within a couple of seconds.)</li>
         <li><strong>Automatic bullets and numbering</strong> aren't counted. Word counts them in documents, so a Word count of the same bulleted text can be slightly higher.</li>
       </ul>
 
@@ -75,7 +76,7 @@
       <h3>On a Mac</h3>
       <ol>
         <li>Quit PowerPoint.</li>
-        <li>In Finder, choose <strong>Go › Go to Folder…</strong>, paste <code>~/Library/Containers/com.microsoft.Powerpoint/Data/Documents/wef</code> and press Return. If Finder can't find it, go to <code>…/Data/Documents</code> instead and create a folder named <code>wef</code> there.</li>
+        <li>In Finder, choose <strong>Go › Go to Folder…</strong>, paste <code>~/Library/Containers/com.microsoft.Powerpoint/Data/Documents/wef</code> and press Return. If Finder can't find it, go to <code>~/Library/Containers/com.microsoft.Powerpoint/Data/Documents</code> instead and create a folder named <code>wef</code> there.</li>
         <li>Copy the downloaded <code>word-count-manifest.xml</code> into that folder. Leave anything else in the folder alone.</li>
         <li>Open PowerPoint and a presentation, choose <strong>Home › Add-ins</strong>, and pick <strong>Word Count</strong>.</li>
       </ol>
@@ -96,7 +97,10 @@
       <ul>
         <li><strong>The numbers look stuck:</strong> choose <strong>Refresh</strong> at the bottom of the pane.</li>
         <li><strong>The pane looks out of date after an update:</strong> on a Mac, open the small menu at the top of the pane and choose <strong>Clear Web Cache</strong>, then reopen the pane.</li>
-        <li><strong>It says "Please update PowerPoint":</strong> install the latest Office updates (on a Mac: <strong>Help › Check for Updates</strong>).</li>
+        <li>
+          <strong>Word Count doesn't appear after installing, or it says "Please update PowerPoint":</strong> check your version (Mac: <strong>PowerPoint › About PowerPoint</strong>; Windows: <strong>File › Account › About PowerPoint</strong>). You need 16.105 or later on Mac, or
+          Version 2601 or later on Windows. Update (Mac: <strong>Help › Check for Updates</strong>; Windows: <strong>File › Account › Update Options › Update Now</strong>), then quit and reopen PowerPoint. One-time-purchase Office (2021, 2024, LTSC) can't run Word Count; use PowerPoint on the web instead.
+        </li>
       </ul>
     </main>
   </body>

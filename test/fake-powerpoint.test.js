@@ -164,6 +164,17 @@ test("failNextSyncs makes the next syncs fail like a transient host error", asyn
   });
 });
 
+test("trampleSync makes a sync resolve without loading anything", async () => {
+  const { PowerPoint, host } = createFakeHost({ highlight: null, selected: [textBox] });
+  host.trampleSync(1);
+  await PowerPoint.run(async (context) => {
+    const shapes = context.presentation.getSelectedShapes();
+    shapes.load("items/id");
+    await context.sync();
+    assert.throws(() => shapes.items, { code: "PropertyNotLoaded" });
+  });
+});
+
 test("Office fake: onReady, requirement sets, selection events", async () => {
   const { Office, host } = createFakeHost({ highlight: null, selected: [] }, { platform: "PC", apiVersion: "1.10" });
   assert.deepEqual(await Office.onReady(), { host: "PowerPoint", platform: "PC" });

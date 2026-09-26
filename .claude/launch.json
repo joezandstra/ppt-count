@@ -5,7 +5,7 @@
       "name": "preview",
       "runtimeExecutable": "node",
       "runtimeArgs": ["scripts/serve.mjs", "--http"],
-      "port": 3100
+      "port": 3101
     }
   ]
 }

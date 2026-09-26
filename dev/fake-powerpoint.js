@@ -347,14 +347,16 @@ class FakeRequestContext {
 
   async sync() {
     const host = this._host;
-    host.stats.syncs++;
+    const number = ++host.stats.syncs;
     const queue = this._queue;
     this._queue = [];
     if (host.latencyMs > 0) await new Promise((resolve) => setTimeout(resolve, host.latencyMs));
-    if (host._failures > 0) {
-      host._failures--;
+    if (host._failSyncs.delete(number)) {
       throw new FakeOfficeError("GeneralException", "The property 'items' is not available. Before reading the property's value, call the load method.");
     }
+    // A "trampled" sync resolves but loads nothing, like office-js #6363: reading
+    // any property loaded in it then throws PropertyNotLoaded.
+    if (host._trampleSyncs.delete(number)) return;
     // Resolve everything first: one failure rejects the whole batch and applies nothing.
     const resolved = queue.map((op) => op.proxy._resolve());
     queue.forEach((op, i) => op.proxy._apply(resolved[i], op.own, op.items));
@@ -382,15 +384,25 @@ export function createFakeHost(scenario = { highlight: null, selected: [] }, { p
     scenario,
     latencyMs,
     stats: { runs: 0, syncs: 0, forbidden: [] },
-    _failures: 0,
+    _failSyncs: new Set(),
+    _trampleSyncs: new Set(),
     _forbidden(api) {
       host.stats.forbidden.push(api);
     },
     setScenario(next) {
       host.scenario = next;
     },
+    /** The next `count` syncs reject, like a transient host error. */
     failNextSyncs(count = 1) {
-      host._failures = count;
+      for (let i = 1; i <= count; i++) host._failSyncs.add(host.stats.syncs + i);
+    },
+    /** Sync number `n` (counting from the host's first sync, 1-based) rejects. */
+    failSync(n) {
+      host._failSyncs.add(n);
+    },
+    /** Sync number `n` resolves without loading anything. */
+    trampleSync(n) {
+      host._trampleSyncs.add(n);
     },
     fireSelectionChanged() {
       for (const handler of selectionHandlers) handler({ type: "documentSelectionChanged" });

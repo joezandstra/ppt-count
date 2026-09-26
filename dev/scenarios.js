@@ -57,6 +57,7 @@ export const SCENARIOS = {
   },
   chart: { label: "Chart and a text box", highlight: null, selected: [{ id: "112", name: "Chart 12", type: "Chart" }, textBox] },
   picture: { label: "A picture (no text)", highlight: null, selected: [picture] },
+  smartArt: { label: "A SmartArt graphic (can't be read)", highlight: null, selected: [{ id: "116", name: "SmartArt 16", type: "SmartArt" }] },
   emptyPlaceholder: { label: "An empty placeholder", highlight: null, selected: [{ id: "113", name: "Subtitle 2", type: "Placeholder", text: "" }] },
   tablePlaceholder: {
     label: "Table inside a content placeholder",

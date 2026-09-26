@@ -3742,3 +3742,26 @@ git commit -m "docs: add README with setup, sharing and troubleshooting"
 - **Spec coverage:** §2 behaviour → Tasks 3 and 5. §3 counting → Task 1. §4.1 URL layout → Task 5 (serve) and Task 7 (build). §4.2 → Task 1. §4.3 → Task 3; the spec's `Table.values` + merged-areas idea was replaced by `getCellOrNullObject`, which is documented to return null objects for merged-over cells, and the spec's interface gains `selectedCount`. §4.4 → Tasks 4 and 5. §4.5 manifest → Task 6. §4.6 build and hosting → Task 7 and README. §5 limitations → help page (Task 6). §6 testing → tests in every task, plus preview and validate. The live PowerPoint check is done by the orchestrator after Task 8, because it needs the user's renewed certificate.
 - **Placeholders:** none. Every code step has full code.
 - **Type consistency:** `SelectionSnapshot` (`source`, `selectedCount`, `items[{id,name,kind,texts}]`, `unsupported[{id,name,type}]`) is used identically in Tasks 3 and 5. `Summary` adds `counts` and `total`. The refresher API is `schedule`/`refreshNow`/`poll`/`stop`. The fake host API is `setScenario`/`failNextSyncs`/`fireSelectionChanged`/`stats`.
+
+---
+
+## Addendum: changes after the multi-agent review (2026-09-26)
+
+Five reviewers (Office API, counting, live updates, build/deploy, docs/UX) produced findings. An adversarial verifier then checked each one: 28 were confirmed (about 14 distinct issues) and 12 were rejected. Changes made on top of the tasks above:
+
+- `src/selection.js`: `runJobs` passes on (rather than hiding) a `read()` failure after a successful sync (office-js #6363) and a round where every job fails on its own, so the refresher retries the whole read. Guesses (`getTable()` on "Unsupported" shapes) run in their own batch (`guess: true`) so a wrong guess can't force the round into one-at-a-time retries.
+- `dev/fake-powerpoint.js`: `failSync(n)` and `trampleSync(n)` (a sync that resolves but loads nothing). `failNextSyncs` is now built on them. New scenario `smartArt`.
+- `src/refresher.js`: a `timeoutMs` (10 s) on each read, so a request that never answers can't freeze the pane.
+- `src/app.js`:
+  - A selection of only charts or SmartArt says "Can't count this" once.
+  - The note reads "N object(s) isn't/aren't included".
+  - The error status stays in the page as a live region (visually hidden when quiet).
+  - Focus moves to Refresh when "Try again" disappears.
+  - One spoken summary per selection change replaces `aria-live` on the numbers.
+- `src/help.html`: line breaks and emoji described correctly; added the web typing limitation, a "doesn't appear" and version-check troubleshooting entry, and the full Mac path.
+- `scripts/serve.mjs`: the preview uses port 3101, with a clear message when a port is in use.
+- `package.json`: `npm start` runs `npm run certs` first, so renewals last a year.
+- `manifest.xml`: ribbon labels "Word Count (dev)".
+- `scripts/build.mjs`: the production manifest gets a neutral header comment.
+- `src/index.html`: redirects the site root to the help page.
+- `README.md`: where to type commands, prerequisites, how to stop the preview, more troubleshooting.

@@ -4,8 +4,9 @@
 // instead of calling office-addin-dev-certs itself, so starting the server never
 // triggers a surprise keychain/password prompt.
 //
-// `--http` serves plain HTTP with no certificate. PowerPoint won't accept that, but
-// it's enough for the browser preview at /dev/preview.html.
+// `--http` serves plain HTTP with no certificate on port 3101. PowerPoint won't
+// accept that, but it's enough for the browser preview at /dev/preview.html. It uses
+// a different port so a forgotten preview can't get in the way of `npm start`.
 //
 // URL layout (the same as the production build): src/ is served at the root,
 // plus /assets/*, /dev/* and the dev manifest.
@@ -20,7 +21,8 @@ import { extname, join, normalize, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = resolve(fileURLToPath(new URL("..", import.meta.url)));
-const PORT = Number(process.env.PORT) || 3100;
+const HTTP_ONLY = process.argv.includes("--http");
+const PORT = Number(process.env.PORT) || (HTTP_ONLY ? 3101 : 3100);
 const CERT_DIR = join(homedir(), ".office-addin-dev-certs");
 const MANIFEST = join(ROOT, "manifest.xml");
 const SERVED_DIRS = ["src", "assets", "dev"].map((dir) => join(ROOT, dir) + sep);
@@ -94,13 +96,19 @@ function send(res, status, text) {
   res.end(text);
 }
 
-if (process.argv.includes("--http")) {
-  createHttpServer(handle).listen(PORT, () => {
+const server = HTTP_ONLY ? createHttpServer(handle) : createServer(loadCertificate(), handle);
+server.on("error", (error) => {
+  if (error.code !== "EADDRINUSE") throw error;
+  console.error(`\nPort ${PORT} is already in use, probably by another copy of this server.`);
+  console.error(HTTP_ONLY ? "Close the other preview window, or press Ctrl+C there.\n" : "Run `npm stop`, then try again.\n");
+  process.exit(1);
+});
+server.listen(PORT, () => {
+  if (HTTP_ONLY) {
     console.log(`Browser preview: http://localhost:${PORT}/dev/preview.html`);
-  });
-} else {
-  createServer(loadCertificate(), handle).listen(PORT, () => {
+    console.log("Press Ctrl+C to stop it.");
+  } else {
     console.log(`Word Count add-in is being served at https://localhost:${PORT}`);
     console.log("Leave this window open while you use the add-in. Press Ctrl+C to stop.");
-  });
-}
+  }
+});

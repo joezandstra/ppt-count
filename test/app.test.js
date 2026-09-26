@@ -69,16 +69,25 @@ test("describe: selected shapes without text", () => {
   assert.equal(describeSelection(summary({ selectedCount: 2 })).detail, "The selected shapes don't contain text.");
 });
 
-test("describe: carries the note about objects that can't be counted", () => {
+test("describe: notes objects that can't be counted next to ones that can", () => {
   const unsupported = [{ id: "c", name: "Chart 1", type: "Chart" }];
   assert.equal(describeSelection(summary({ selectedCount: 2, items: [item("A")], unsupported })).note, unsupportedNote(1));
-  assert.equal(describeSelection(summary({ selectedCount: 1, unsupported })).note, unsupportedNote(1));
+});
+
+test("describe: only a chart or SmartArt selected says so once, without claiming it has no text", () => {
+  const unsupported = [{ id: "c", name: "SmartArt 1", type: "SmartArt" }];
+  assert.deepEqual(describeSelection(summary({ selectedCount: 1, unsupported })), {
+    title: "Can't count this",
+    detail: "PowerPoint doesn't let add-ins read the text in charts, SmartArt and some other objects.",
+    note: "",
+    empty: true,
+  });
 });
 
 test("unsupportedNote wording", () => {
   assert.equal(unsupportedNote(0), "");
-  assert.equal(unsupportedNote(1), "1 selected object can't be counted: PowerPoint doesn't let add-ins read text in charts, SmartArt and some other objects.");
-  assert.equal(unsupportedNote(2), "2 selected objects can't be counted: PowerPoint doesn't let add-ins read text in charts, SmartArt and some other objects.");
+  assert.equal(unsupportedNote(1), "1 object isn't included: PowerPoint doesn't let add-ins read the text in charts, SmartArt and some other objects.");
+  assert.equal(unsupportedNote(3), "3 objects aren't included: PowerPoint doesn't let add-ins read the text in charts, SmartArt and some other objects.");
 });
 
 test("themeFrom uses PowerPoint's colours and dark flag", () => {

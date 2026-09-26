@@ -177,6 +177,42 @@ test("a failed first sync rejects, so the caller can retry", async () => {
   await assert.rejects(PowerPoint.run((context) => readSelection(context)), { code: "GeneralException" });
 });
 
+test("a value that goes missing after a successful sync rejects, so the whole read is retried", async () => {
+  const { PowerPoint, host } = createFakeHost(SCENARIOS.textBox);
+  host.trampleSync(2);
+  await assert.rejects(PowerPoint.run((context) => readSelection(context)), { code: "PropertyNotLoaded" });
+});
+
+test("a later batch failing once is retried shape by shape and still counts everything", async () => {
+  const { PowerPoint, host } = createFakeHost(SCENARIOS.several);
+  host.failSync(2);
+  const snapshot = await PowerPoint.run((context) => readSelection(context));
+  assert.deepEqual(
+    snapshot.items.map((i) => i.name),
+    ["Title 1", "Content Placeholder 2"],
+  );
+  assert.deepEqual(snapshot.unsupported, []);
+});
+
+test("if every shape keeps failing, the read rejects instead of calling them uncountable", async () => {
+  const { PowerPoint, host } = createFakeHost(SCENARIOS.several);
+  for (const n of [2, 3, 4]) host.failSync(n);
+  await assert.rejects(PowerPoint.run((context) => readSelection(context)), { code: "GeneralException" });
+});
+
+test("a wrong guess about an 'Unsupported' shape doesn't slow down the other shapes", async () => {
+  const boxes = Array.from({ length: 30 }, (_, i) => ({ id: `b${i}`, name: `TextBox ${i}`, type: "TextBox", text: "one two" }));
+  const { snapshot, host } = await read({ highlight: null, selected: [...boxes, { id: "z", name: "Zoom 1", type: "Unsupported" }] });
+  assert.equal(snapshot.items.length, 30);
+  assert.deepEqual(snapshot.unsupported, [{ id: "z", name: "Zoom 1", type: "Unsupported" }]);
+  assert.ok(host.stats.syncs <= 5, `used ${host.stats.syncs} syncs`);
+});
+
+test("an 'Unsupported' shape selected on its own is reported, not an error", async () => {
+  const { snapshot } = await read({ highlight: null, selected: [{ id: "z", name: "Zoom 1", type: "Unsupported" }] });
+  assert.deepEqual(snapshot, { source: "shapes", selectedCount: 1, items: [], unsupported: [{ id: "z", name: "Zoom 1", type: "Unsupported" }] });
+});
+
 test("tableCellTexts skips cells hidden under a merge", () => {
   assert.deepEqual(
     tableCellTexts([
