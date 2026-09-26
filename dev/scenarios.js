@@ -31,6 +31,13 @@ export const SCENARIOS = {
   highlight: { label: "Highlighted text", highlight: "quick brown fox", selected: [textBox] },
   several: { label: "Three shapes (one is a picture)", highlight: null, selected: [titlePlaceholder, bodyPlaceholder, picture] },
   table: { label: "Table with merged cells", highlight: null, selected: [table] },
+  tableHighlight: {
+    label: "Text highlighted in a table cell",
+    // What PowerPoint for Mac reports: a text range without text, plus the plain-text selection.
+    highlight: null,
+    selectedText: "1,450 units",
+    selected: [table],
+  },
   group: {
     label: "Nested group",
     highlight: null,

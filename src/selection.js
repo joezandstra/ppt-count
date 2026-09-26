@@ -21,19 +21,33 @@ const UNREADABLE = new Set(["Chart", "SmartArt", "Diagram", "Ole"]);
 
 /**
  * @param {PowerPoint.RequestContext} context
+ * @param {{ selectedText?: () => Promise<string | null> }} [options]
+ *   `selectedText` returns the selection as plain text through Office's older
+ *   common API (Office.context.document.getSelectedDataAsync). It's the only way
+ *   to see text highlighted inside a table cell; see readTable.
  * @returns {Promise<SelectionSnapshot>}
  */
-export async function readSelection(context) {
-  const range = context.presentation.getSelectedTextRangeOrNullObject();
+export async function readSelection(context, { selectedText } = {}) {
+  const presentation = context.presentation;
+  let range = presentation.getSelectedTextRangeOrNullObject();
   range.load("text");
-  const selection = context.presentation.getSelectedShapes();
+  let selection = presentation.getSelectedShapes();
   selection.load(SHAPE_FIELDS);
-  await context.sync();
+  try {
+    await context.sync();
+  } catch {
+    // The text range can fail for text inside table cells (PowerPoint for Mac
+    // 16.113 throws InvalidArgument for some loads), so read the shapes on their own.
+    range = null;
+    selection = presentation.getSelectedShapes();
+    selection.load(SHAPE_FIELDS);
+    await context.sync();
+  }
 
   const shapes = selection.items;
-  // With a chart selected, PowerPoint for Mac returns a range whose text is null
-  // rather than a null object (seen on 16.113).
-  const rangeText = range.isNullObject ? "" : (range.text ?? "");
+  // With a chart selected, or text highlighted in a table cell, PowerPoint for Mac
+  // returns a range whose text is null rather than a null object (seen on 16.113).
+  const rangeText = !range || range.isNullObject ? "" : (range.text ?? "");
   // Highlighted text wins unless several shapes are selected (what the range means
   // then is undocumented). Never navigate from the range to its shape: that fails
   // for text inside table cells.
@@ -52,7 +66,26 @@ export async function readSelection(context) {
     return coversAllText(rangeText, whole) ? whole : highlight;
   }
   if (shapes.length === 0) return { source: "none", selectedCount: 0, items: [], unsupported: [] };
-  return readShapes(context, shapes);
+  const snapshot = await readShapes(context, shapes);
+  if (shapes.length === 1 && snapshot.items[0]?.kind === "table" && selectedText) {
+    return readTable(snapshot, await selectedText());
+  }
+  return snapshot;
+}
+
+// PowerPoint's API has no text range for text highlighted inside a table cell
+// (office-js #6906), but the older common API returns the selection as plain text:
+// the highlighted text, the selected cells, or every cell when the whole table is
+// selected. Anything less than the whole table is counted as a highlight.
+function readTable(snapshot, text) {
+  if (typeof text !== "string" || !text.trim() || coversAllText(text, snapshot)) return snapshot;
+  const [table] = snapshot.items;
+  return {
+    source: "highlight",
+    selectedCount: 1,
+    items: [{ id: table.id, name: table.name, kind: "highlight", texts: [text] }],
+    unsupported: [],
+  };
 }
 
 // Compares ignoring whitespace, because how PowerPoint separates paragraphs or

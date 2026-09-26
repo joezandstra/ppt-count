@@ -1,7 +1,9 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
-import { describeSelection, summarize, themeFrom, unsupportedNote } from "../src/app.js";
+import { createFakeHost } from "../dev/fake-powerpoint.js";
+import { SCENARIOS } from "../dev/scenarios.js";
+import { describeSelection, selectedTextReader, summarize, themeFrom, unsupportedNote } from "../src/app.js";
 
 const summary = (overrides) => ({
   source: "shapes",
@@ -107,4 +109,29 @@ test("themeFrom ignores missing, empty or invalid themes", () => {
   assert.equal(themeFrom(undefined), null);
   assert.equal(themeFrom({}), null);
   assert.equal(themeFrom({ bodyBackgroundColor: "red", bodyForegroundColor: "#000000" }), null);
+});
+
+test("selectedTextReader returns the plain-text selection", async () => {
+  const { Office } = createFakeHost(SCENARIOS.tableHighlight);
+  assert.equal(await selectedTextReader(Office)(), "1,450 units");
+});
+
+test("selectedTextReader gives up (null) when Office never answers", async () => {
+  const { Office, host } = createFakeHost(SCENARIOS.tableHighlight);
+  host.hangSelectedData = true;
+  assert.equal(await selectedTextReader(Office, { timeoutMs: 20 })(), null);
+});
+
+test("selectedTextReader returns null when the call fails or throws", async () => {
+  const failing = { ...createFakeHost().Office };
+  failing.context = { document: { getSelectedDataAsync: (_type, callback) => callback({ status: "failed", error: { message: "no" } }) } };
+  assert.equal(await selectedTextReader(failing)(), null);
+  failing.context = {
+    document: {
+      getSelectedDataAsync: () => {
+        throw new Error("not supported");
+      },
+    },
+  };
+  assert.equal(await selectedTextReader(failing)(), null);
 });

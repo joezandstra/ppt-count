@@ -7,11 +7,14 @@ import { readSelection, tableCellTexts } from "../src/selection.js";
 
 const SENTENCE = "The quick brown fox jumps over the lazy dog.";
 
-async function read(scenario) {
+async function read(scenario, options) {
   const { PowerPoint, host } = createFakeHost(scenario);
-  const snapshot = await PowerPoint.run((context) => readSelection(context));
+  const snapshot = await PowerPoint.run((context) => readSelection(context, options));
   return { snapshot, host };
 }
+
+const TABLE_TEXT = "Region\r\nQ1\r\nQ2\r\nNorth\r\n1,200 units\r\n1,450 units\r\nSouth \u2014 combined total\r\n";
+const selectedText = (text) => async () => text;
 
 test("nothing selected", async () => {
   const { snapshot } = await read(SCENARIOS.nothing);
@@ -194,9 +197,16 @@ test("never uses the APIs that throw on the wrong kind of shape", async () => {
   }
 });
 
-test("a failed first sync rejects, so the caller can retry", async () => {
+test("a failed first sync is retried once without the text range", async () => {
   const { PowerPoint, host } = createFakeHost(SCENARIOS.textBox);
   host.failNextSyncs(1);
+  const snapshot = await PowerPoint.run((context) => readSelection(context));
+  assert.deepEqual(snapshot.items[0].texts, ["The quick brown fox jumps over the lazy dog."]);
+});
+
+test("if the retry fails too, the read rejects so the caller can retry later", async () => {
+  const { PowerPoint, host } = createFakeHost(SCENARIOS.textBox);
+  host.failNextSyncs(2);
   await assert.rejects(PowerPoint.run((context) => readSelection(context)), { code: "GeneralException" });
 });
 
@@ -234,6 +244,57 @@ test("a wrong guess about an 'Unsupported' shape doesn't slow down the other sha
 test("an 'Unsupported' shape selected on its own is reported, not an error", async () => {
   const { snapshot } = await read({ highlight: null, selected: [{ id: "z", name: "Zoom 1", type: "Unsupported" }] });
   assert.deepEqual(snapshot, { source: "shapes", selectedCount: 1, items: [], unsupported: [{ id: "z", name: "Zoom 1", type: "Unsupported" }] });
+});
+
+test("text highlighted in a table cell counts only that text", async () => {
+  // PowerPoint for Mac: a text range without text, but the plain-text selection has the highlight.
+  const { snapshot } = await read({ highlight: { text: null }, selected: SCENARIOS.table.selected }, { selectedText: selectedText("1,200") });
+  assert.deepEqual(snapshot, {
+    source: "highlight",
+    selectedCount: 1,
+    items: [{ id: "105", name: "Table 5", kind: "highlight", texts: ["1,200"] }],
+    unsupported: [],
+  });
+});
+
+test("a selected cell counts that cell", async () => {
+  const { snapshot } = await read({ highlight: { text: null }, selected: SCENARIOS.table.selected }, { selectedText: selectedText("1,450 units\r\n") });
+  assert.equal(snapshot.source, "highlight");
+  assert.deepEqual(snapshot.items[0].texts, ["1,450 units\r\n"]);
+});
+
+test("a whole selected table still counts every cell", async () => {
+  const { snapshot } = await read(SCENARIOS.table, { selectedText: selectedText(TABLE_TEXT) });
+  assert.equal(snapshot.source, "shapes");
+  assert.equal(snapshot.items[0].kind, "table");
+  assert.equal(snapshot.items[0].texts.length, 7);
+});
+
+test("no plain-text selection (empty, missing or unavailable) counts the whole table", async () => {
+  for (const options of [{ selectedText: selectedText("") }, { selectedText: selectedText(null) }, { selectedText: selectedText("  \r\n") }, {}]) {
+    const { snapshot } = await read(SCENARIOS.table, options);
+    assert.equal(snapshot.source, "shapes");
+  }
+});
+
+test("a text range that fails to load doesn't break the read", async () => {
+  const { snapshot } = await read({ highlight: { error: "InvalidArgument" }, selected: SCENARIOS.table.selected }, { selectedText: selectedText("Q1") });
+  assert.equal(snapshot.source, "highlight");
+  assert.deepEqual(snapshot.items[0].texts, ["Q1"]);
+});
+
+test("the plain-text selection is only asked for when one table is selected", async () => {
+  let calls = 0;
+  const counting = async () => {
+    calls++;
+    return "x";
+  };
+  for (const key of ["textBox", "several", "group", "chart", "picture", "nothing", "highlight"]) {
+    await read(SCENARIOS[key], { selectedText: counting });
+  }
+  assert.equal(calls, 0);
+  await read(SCENARIOS.tablePlaceholder, { selectedText: counting });
+  assert.equal(calls, 1);
 });
 
 test("tableCellTexts skips cells hidden under a merge", () => {

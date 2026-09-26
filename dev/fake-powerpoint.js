@@ -316,7 +316,9 @@ class FakePresentation {
       () => {
         const highlight = this._context._host.scenario.highlight;
         if (highlight == null) return NULL;
-        // An object stands for an odd range, e.g. { text: null } as PowerPoint for Mac returns for charts.
+        // An object stands for an odd range: { text: null }, as PowerPoint for Mac returns
+        // for charts and table cells, or { error: code } for a range that fails to load.
+        if (typeof highlight === "object" && highlight.error) throw new FakeOfficeError(highlight.error, "The argument is invalid or missing or has an incorrect format.");
         return typeof highlight === "object" ? highlight : { text: highlight };
       },
       { nullable: true },
@@ -385,7 +387,8 @@ export function createFakeHost(scenario = { highlight: null, selected: [] }, { p
   const host = {
     scenario,
     latencyMs,
-    stats: { runs: 0, syncs: 0, forbidden: [] },
+    stats: { runs: 0, syncs: 0, forbidden: [], selectedDataCalls: 0 },
+    hangSelectedData: false,
     _failSyncs: new Set(),
     _trampleSyncs: new Set(),
     _forbidden(api) {
@@ -427,6 +430,7 @@ export function createFakeHost(scenario = { highlight: null, selected: [] }, { p
     HostType: { PowerPoint: "PowerPoint" },
     PlatformType: { PC: "PC", OfficeOnline: "OfficeOnline", Mac: "Mac", iOS: "iOS", Android: "Android", Universal: "Universal" },
     EventType: { DocumentSelectionChanged: "documentSelectionChanged" },
+    CoercionType: { Text: "text" },
     AsyncResultStatus: { Succeeded: "succeeded", Failed: "failed" },
     onReady: async () => ({ host: "PowerPoint", platform }),
     context: {
@@ -436,6 +440,14 @@ export function createFakeHost(scenario = { highlight: null, selected: [] }, { p
         isSetSupported: (name, version = "1.1") => name === "PowerPointApi" && compareVersions(apiVersion, version) >= 0,
       },
       document: {
+        /** Plain-text selection: the scenario's `selectedText` (default ""); `hangSelectedData` never answers. */
+        getSelectedDataAsync(coercionType, optionsOrCallback, maybeCallback) {
+          const callback = typeof optionsOrCallback === "function" ? optionsOrCallback : maybeCallback;
+          host.stats.selectedDataCalls++;
+          if (host.hangSelectedData) return;
+          const value = host.scenario.selectedText ?? "";
+          setTimeout(() => callback?.({ status: "succeeded", value }), host.latencyMs);
+        },
         addHandlerAsync(eventType, handler, optionsOrCallback, maybeCallback) {
           const callback = typeof optionsOrCallback === "function" ? optionsOrCallback : maybeCallback;
           if (eventType === "documentSelectionChanged") selectionHandlers.push(handler);

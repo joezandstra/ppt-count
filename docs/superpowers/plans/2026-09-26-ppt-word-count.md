@@ -3788,3 +3788,18 @@ Fixes:
 - Added `src/devlog.js` and request logging in `scripts/serve.mjs`: pane start-up steps, reads and errors go to the dev server log on localhost.
 
 Observed: a pane in a window that macOS considers hidden (covered by other windows) has `visibilityState` "hidden", renders nothing to window captures and pauses polling. It refreshes when it becomes visible again, as designed.
+
+## Addendum: highlighted text inside table cells (2026-09-26)
+
+The user asked for highlighted text in table cells to be counted. Probed live on PowerPoint for Mac 16.113, with text highlighted in a table cell:
+- `getSelectedTextRangeOrNullObject()` loading `text` gives a non-null range with `text: null`. Loading `start`/`length` throws InvalidArgument.
+- `Office.context.document.getSelectedDataAsync(Office.CoercionType.Text)` returns exactly the highlighted text ("1,200"). For a selected cell it returns that cell's text plus "\r\n". For a whole selected table it returns every cell joined by "\r\n" (merged cells once).
+- The preview API (@types/office-js-preview) adds nothing for table-cell text.
+
+Implementation:
+- `readSelection(context, { selectedText })`: when exactly one table is selected, the plain-text selection is compared with the table's text, ignoring whitespace. Anything less than the whole table is counted as a highlight.
+- The first sync is retried without the text range if it fails.
+- `app.js` exports `selectedTextReader(Office)`: a promise wrapper with a 1.5 s timeout, because office-js #4200 shows the call can fail to answer.
+- The fake gained `getSelectedDataAsync`, `CoercionType`, `highlight: { error }`, `hangSelectedData` and a `tableHighlight` scenario.
+
+Verified live: "1,200" → 1/5/5; "combined total" in the merged cell → 2/13/14; one cell → 2/10/11; whole table → 11/54/59; neighbouring text box unaffected.

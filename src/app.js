@@ -47,8 +47,9 @@ export function start({ Office, PowerPoint, root, info, log = () => {} }) {
   applyOfficeTheme();
 
   let lastLogged = "";
+  const selectedText = selectedTextReader(Office);
   const refresher = createRefresher({
-    read: () => PowerPoint.run((context) => readSelection(context)),
+    read: () => PowerPoint.run((context) => readSelection(context, { selectedText })),
     onResult: (snapshot) => {
       const summary = summarize(snapshot);
       const { words, characters, charactersWithSpaces } = summary.total;
@@ -94,6 +95,31 @@ export function start({ Office, PowerPoint, root, info, log = () => {} }) {
   // so give start-up a moment. The refresher also retries a failed read.
   doc.defaultView.setTimeout(() => refresher.refreshNow(), 50);
   return { refresher, view };
+}
+
+/**
+ * The selection as plain text, through Office's older common API. Resolves to null
+ * when it's unavailable, fails, or doesn't answer in time: it has been seen never
+ * to call back in some cases (office-js #4200).
+ * @returns {() => Promise<string | null>}
+ */
+export function selectedTextReader(Office, { timeoutMs = 1500, timers = globalThis } = {}) {
+  return () =>
+    new Promise((resolve) => {
+      const timer = timers.setTimeout(() => resolve(null), timeoutMs);
+      const finish = (value) => {
+        timers.clearTimeout(timer);
+        resolve(value);
+      };
+      try {
+        Office.context.document.getSelectedDataAsync(Office.CoercionType.Text, (result) => {
+          const ok = result?.status === Office.AsyncResultStatus.Succeeded && typeof result.value === "string";
+          finish(ok ? result.value : null);
+        });
+      } catch {
+        finish(null);
+      }
+    });
 }
 
 /**
