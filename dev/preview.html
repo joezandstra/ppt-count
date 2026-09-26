@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Word Count preview</title>
+    <link rel="stylesheet" href="/taskpane.css" />
+    <style>
+      body.preview-body {
+        background: color-mix(in srgb, var(--pane-fg) 10%, var(--pane-bg));
+      }
+      .preview {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px;
+        align-items: flex-start;
+        padding: 24px;
+      }
+      .preview-controls {
+        display: grid;
+        gap: 12px;
+        width: 280px;
+        font-size: 13px;
+      }
+      .preview-controls h1 {
+        margin: 0;
+        font-size: 18px;
+      }
+      .preview-controls p {
+        margin: 0;
+        color: var(--muted);
+      }
+      .preview-controls label {
+        display: grid;
+        gap: 4px;
+        font-weight: 600;
+      }
+      .preview-controls select,
+      .preview-controls button {
+        font: inherit;
+        padding: 6px 8px;
+      }
+      .preview-frame {
+        width: 320px;
+        height: 600px;
+        overflow: auto;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        background: var(--pane-bg);
+        box-shadow: 0 6px 24px rgb(0 0 0 / 0.14);
+      }
+      .preview-frame #app {
+        height: 100%;
+      }
+      .preview-frame .pane {
+        min-height: 100%;
+      }
+    </style>
+  </head>
+  <body class="preview-body">
+    <div class="preview">
+      <form class="preview-controls" onsubmit="return false">
+        <h1>Word Count preview</h1>
+        <p>The real task pane code, running against a fake PowerPoint.</p>
+        <label>Selection <select id="scenario"></select></label>
+        <label
+          >Office theme
+          <select id="theme">
+            <option value="none">None (follow the system)</option>
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+        </label>
+        <label
+          >Platform
+          <select id="platform">
+            <option value="Mac">Mac</option>
+            <option value="PC">Windows</option>
+            <option value="OfficeOnline">Web (no polling)</option>
+          </select>
+        </label>
+        <button type="button" id="type">Simulate typing in the first text box</button>
+        <button type="button" id="fail">Make the next read fail (twice)</button>
+      </form>
+      <div class="preview-frame"><div id="app"></div></div>
+    </div>
+    <script type="module">
+      import { createFakeHost } from "/dev/fake-powerpoint.js";
+      import { SCENARIOS } from "/dev/scenarios.js";
+      import { start } from "/app.js";
+
+      const THEMES = {
+        light: { bodyBackgroundColor: "#FFFFFF", bodyForegroundColor: "#242424", controlBackgroundColor: "#FFFFFF", controlForegroundColor: "#242424", isDarkTheme: false },
+        dark: { bodyBackgroundColor: "#292929", bodyForegroundColor: "#F2F2F2", controlBackgroundColor: "#1F1F1F", controlForegroundColor: "#F2F2F2", isDarkTheme: true },
+      };
+      const params = new URLSearchParams(location.search);
+      const state = {
+        scenario: SCENARIOS[params.get("scenario")] ? params.get("scenario") : "textBox",
+        theme: THEMES[params.get("theme")] ? params.get("theme") : "none",
+        platform: ["Mac", "PC", "OfficeOnline"].includes(params.get("platform")) ? params.get("platform") : "Mac",
+      };
+      const saveState = () => history.replaceState(null, "", `?${new URLSearchParams(state)}`);
+
+      // Copies, so "simulate typing" never edits the shared scenarios.
+      const fake = createFakeHost(structuredClone(SCENARIOS[state.scenario]), {
+        platform: state.platform,
+        theme: THEMES[state.theme] ?? null,
+        latencyMs: 25,
+      });
+      start({ Office: fake.Office, PowerPoint: fake.PowerPoint, root: document.getElementById("app"), info: { host: "PowerPoint", platform: state.platform } });
+
+      const scenarioSelect = document.getElementById("scenario");
+      for (const [key, { label }] of Object.entries(SCENARIOS)) scenarioSelect.add(new Option(label, key, false, key === state.scenario));
+      scenarioSelect.addEventListener("change", () => {
+        state.scenario = scenarioSelect.value;
+        saveState();
+        fake.host.setScenario(structuredClone(SCENARIOS[state.scenario]));
+        fake.host.fireSelectionChanged();
+      });
+
+      // Theme and platform are read once at start-up, as in PowerPoint, so reload.
+      for (const id of ["theme", "platform"]) {
+        const select = document.getElementById(id);
+        select.value = state[id];
+        select.addEventListener("change", () => {
+          state[id] = select.value;
+          saveState();
+          location.reload();
+        });
+      }
+
+      const firstTextShape = (shapes) => {
+        for (const shape of shapes) {
+          if (typeof shape.text === "string") return shape;
+          const inner = shape.shapes && firstTextShape(shape.shapes);
+          if (inner) return inner;
+        }
+        return null;
+      };
+      document.getElementById("type").addEventListener("click", () => {
+        const shape = firstTextShape(fake.host.scenario.selected);
+        if (shape) shape.text += " More words";
+        // No selection event: on Mac/Windows the pane's polling picks this up.
+      });
+      document.getElementById("fail").addEventListener("click", () => {
+        fake.host.failNextSyncs(2);
+        fake.host.fireSelectionChanged();
+      });
+    </script>
+  </body>
+</html>

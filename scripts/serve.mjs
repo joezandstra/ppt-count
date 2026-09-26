@@ -1,4 +1,4 @@
-// Local HTTPS server for developing the add-in (https://localhost:3100).
+// Local server for developing the add-in (https://localhost:3100).
 //
 // It reads the certificate that `npm run certs` installs in ~/.office-addin-dev-certs
 // instead of calling office-addin-dev-certs itself, so starting the server never
@@ -6,6 +6,9 @@
 //
 // `--http` serves plain HTTP with no certificate. PowerPoint won't accept that, but
 // it's enough for the browser preview at /dev/preview.html.
+//
+// URL layout (the same as the production build): src/ is served at the root,
+// plus /assets/*, /dev/* and the dev manifest.
 
 import { X509Certificate } from "node:crypto";
 import { existsSync, readFileSync } from "node:fs";
@@ -19,9 +22,8 @@ import { fileURLToPath } from "node:url";
 const ROOT = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const PORT = Number(process.env.PORT) || 3100;
 const CERT_DIR = join(homedir(), ".office-addin-dev-certs");
-
-// Only these top-level paths are served; everything else is a 404.
-const PUBLIC = ["src", "assets", "dev", "manifest.xml", "README.md"];
+const MANIFEST = join(ROOT, "manifest.xml");
+const SERVED_DIRS = ["src", "assets", "dev"].map((dir) => join(ROOT, dir) + sep);
 
 const MIME = {
   ".html": "text/html; charset=utf-8",
@@ -33,7 +35,6 @@ const MIME = {
   ".svg": "image/svg+xml",
   ".ico": "image/x-icon",
   ".xml": "application/xml; charset=utf-8",
-  ".md": "text/markdown; charset=utf-8",
 };
 
 function loadCertificate() {
@@ -55,17 +56,25 @@ function fail(reason) {
   process.exit(1);
 }
 
-async function handle(req, res) {
-  const url = new URL(req.url, `https://localhost:${PORT}`);
-  let path = decodeURIComponent(url.pathname);
-  if (path === "/") path = "/src/taskpane.html";
+function resolvePath(pathname) {
+  if (pathname === "/") return join(ROOT, "src", "taskpane.html");
+  if (pathname === "/manifest.xml" || pathname === "/word-count-manifest.xml") return MANIFEST;
+  const top = pathname.split("/")[1];
+  if (top === "assets" || top === "dev") return join(ROOT, pathname);
+  return join(ROOT, "src", pathname);
+}
 
-  const target = normalize(join(ROOT, path));
-  const top = target.slice(ROOT.length + 1).split(sep)[0];
-  if (!target.startsWith(ROOT + sep) || !PUBLIC.includes(top)) {
+async function handle(req, res) {
+  let pathname;
+  try {
+    pathname = decodeURIComponent(new URL(req.url, "https://localhost").pathname);
+  } catch {
+    return send(res, 400, "Bad request");
+  }
+  const target = normalize(resolvePath(pathname));
+  if (target !== MANIFEST && !SERVED_DIRS.some((dir) => target.startsWith(dir))) {
     return send(res, 404, "Not found");
   }
-
   try {
     if (!(await stat(target)).isFile()) return send(res, 404, "Not found");
     const body = await readFile(target);

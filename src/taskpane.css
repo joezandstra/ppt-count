@@ -1,0 +1,313 @@
+/* Word Count task pane and help page.
+   Colours are tokens. PowerPoint's own UI colours, set by app.js as --office-bg
+   and --office-fg, win when available so the pane blends into PowerPoint. */
+
+:root {
+  color-scheme: light;
+  --bg: #ffffff;
+  --fg: #242424;
+  --accent: #1d5bd8;
+  --danger: #b42318;
+  --pane-bg: var(--office-bg, var(--bg));
+  --pane-fg: var(--office-fg, var(--fg));
+  --muted: color-mix(in srgb, var(--pane-fg) 64%, var(--pane-bg));
+  --surface: color-mix(in srgb, var(--pane-fg) 5%, var(--pane-bg));
+  --border: color-mix(in srgb, var(--pane-fg) 14%, var(--pane-bg));
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #1f1f1f;
+    --fg: #f2f2f2;
+    --accent: #8cb4ff;
+    --danger: #ff8f85;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #1f1f1f;
+  --fg: #f2f2f2;
+  --accent: #8cb4ff;
+  --danger: #ff8f85;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html,
+body {
+  margin: 0;
+}
+
+body {
+  background: var(--pane-bg);
+  color: var(--pane-fg);
+  font: 14px/1.45 var(--font);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Task pane ---------- */
+
+.pane {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-height: 100vh;
+  padding: 16px;
+}
+
+.context__title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.context__detail {
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 0;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column-reverse; /* number above its label; the label is still read first */
+  justify-content: flex-end;
+  gap: 4px;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.stat--words {
+  grid-column: 1 / -1;
+  padding: 14px 16px 16px;
+}
+
+.stat__value {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+  overflow-wrap: anywhere;
+}
+
+.stat--words .stat__value {
+  font-size: 44px;
+  color: var(--accent);
+}
+
+.stat__label {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+.stat__qualifier {
+  display: block;
+}
+
+.stat--words .stat__label {
+  font-size: 13px;
+}
+
+.is-empty .stat__value {
+  color: var(--muted);
+}
+
+.note {
+  margin: 0;
+  padding: 8px 12px;
+  border-left: 3px solid var(--accent);
+  border-radius: 0 6px 6px 0;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.breakdown__title {
+  margin: 0 0 4px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.breakdown__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--border);
+}
+
+.breakdown__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+
+.breakdown__name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.breakdown__count {
+  flex: none;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.status {
+  margin: 0;
+  color: var(--danger);
+  font-size: 13px;
+}
+
+.notice {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 12px;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.footer__actions {
+  display: flex;
+  gap: 12px;
+}
+
+.link-button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.link-button:hover {
+  text-decoration: underline;
+}
+
+.link-button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+@media (max-width: 250px) {
+  .stats {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Help page ---------- */
+
+.help {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+.help h1 {
+  margin: 0 0 8px;
+  font-size: 24px;
+  line-height: 1.25;
+}
+
+.help h2 {
+  margin: 32px 0 8px;
+  font-size: 18px;
+}
+
+.help h3 {
+  margin: 20px 0 6px;
+  font-size: 15px;
+}
+
+.help p,
+.help li {
+  max-width: 65ch;
+}
+
+.help li + li {
+  margin-top: 4px;
+}
+
+.help__lead {
+  color: var(--muted);
+  font-size: 16px;
+}
+
+.help code {
+  padding: 1px 4px;
+  border-radius: 4px;
+  background: var(--surface);
+  font-size: 0.92em;
+  overflow-wrap: anywhere;
+}
+
+.help a {
+  color: var(--accent);
+}
+
+.help__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.help__table th,
+.help__table td {
+  padding: 8px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.help__download {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 6px;
+  background: var(--accent);
+  color: var(--pane-bg) !important;
+  font-weight: 600;
+  text-decoration: none;
+}

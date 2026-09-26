@@ -3020,6 +3020,13 @@
    "words": 2,
    "characters": 10,
    "charactersWithSpaces": 11
+  },
+  {
+   "id": "greek",
+   "text": "Γειά σου",
+   "words": 2,
+   "characters": 7,
+   "charactersWithSpaces": 8
   }
  ],
  "deviations": [
@@ -3070,14 +3077,6 @@
    "characters": 2,
    "charactersWithSpaces": 4,
    "reason": "A lone variation selector is 0 words; Word counts it as 1"
-  },
-  {
-   "id": "greek",
-   "text": "Γειά σου",
-   "words": 2,
-   "characters": 7,
-   "charactersWithSpaces": 8,
-   "reason": "Greek is always alphabetic; Word flipped it to per-letter East Asian because of earlier text in the same document"
   }
  ]
 }

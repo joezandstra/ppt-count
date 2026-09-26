@@ -31,7 +31,7 @@
 |---|---|---|
 | `src/count.js` | `countText`, `sumCounts`, `countChunks`, `ZERO` (Word rules) | 1 |
 | `test/count.test.js` | vectors + Word measurement fixture | 1 |
-| `test/fixtures/word-measurements.json` | 431 Word-measured rows + 7 deliberate deviations (already committed) | 1 |
+| `test/fixtures/word-measurements.json` | 432 Word-measured rows + 6 deliberate deviations (already committed) | 1 |
 | `dev/fake-powerpoint.js` | `createFakeHost()`: fake `Office` + `PowerPoint` with real load/sync rules | 2 |
 | `dev/scenarios.js` | `SCENARIOS`: named selections for tests and the preview | 2 |
 | `test/fake-powerpoint.test.js` | proves the fake enforces the rules | 2 |
@@ -2883,6 +2883,9 @@ if (process.argv.includes("--http")) {
         background: var(--pane-bg);
         box-shadow: 0 6px 24px rgb(0 0 0 / 0.14);
       }
+      .preview-frame #app {
+        height: 100%;
+      }
       .preview-frame .pane {
         min-height: 100%;
       }
@@ -3019,7 +3022,8 @@ import { existsSync, readFileSync } from "node:fs";
 import { test } from "node:test";
 
 const root = new URL("../", import.meta.url);
-const xml = readFileSync(new URL("manifest.xml", root), "utf8");
+// Comments are dropped so a mention of an element in a comment isn't mistaken for the element.
+const xml = readFileSync(new URL("manifest.xml", root), "utf8").replace(/<!--[\s\S]*?-->/g, "");
 
 test("targets PowerPoint with PowerPointApi 1.10 and read/write permission", () => {
   assert.match(xml, /<Host Name="Presentation"\s*\/>/);
@@ -3595,8 +3599,10 @@ jobs:
       - run: npm run build
         env:
           BASE_URL: ${{ steps.pages.outputs.base_url }}
+      # Schema check by Microsoft's online validator. (Its "-p" store mode also fetches
+      # the icons from the live site, which fails before the first deploy.)
       - name: Check the production manifest with Microsoft's validator
-        run: npx --yes office-addin-manifest@3 validate -p dist/word-count-manifest.xml
+        run: npx --yes office-addin-manifest@3 validate dist/word-count-manifest.xml
         continue-on-error: true
       - uses: actions/upload-pages-artifact@v5
         with:
@@ -3713,7 +3719,7 @@ Colleagues can't use the local version, so the add-in has to live on the web. Th
 | `src/taskpane.*`, `src/help.html` | The pane page, styles and help page |
 | `dev/` | Fake PowerPoint, example selections and the browser preview |
 | `scripts/` | Local server, production build, icon generator |
-| `test/` | Unit tests, including 431 counts measured in Microsoft Word |
+| `test/` | Unit tests, including 432 counts measured in Microsoft Word |
 | `manifest.xml` | Add-in definition for local development |
 ````
 

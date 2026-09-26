@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  Development manifest (https://localhost:3100). `npm run build` turns it into the
+  production manifest (dist/word-count-manifest.xml) with the hosting address, its
+  own Id and the name "Word Count". Bump <Version> whenever this file changes.
+-->
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
+  xmlns:ov="http://schemas.microsoft.com/office/taskpaneappversionoverrides"
+  xsi:type="TaskPaneApp">
+  <Id>25c6e699-85a5-4a2d-bc50-ecc66e7483be</Id>
+  <Version>1.0.0.0</Version>
+  <ProviderName>Joe Zandstra</ProviderName>
+  <DefaultLocale>en-US</DefaultLocale>
+  <DisplayName DefaultValue="Word Count (dev)"/>
+  <Description DefaultValue="Live word, character and characters-with-spaces counts for the selected text, shapes, tables and groups, counted the way Microsoft Word counts."/>
+  <IconUrl DefaultValue="https://localhost:3100/assets/icon-32.png"/>
+  <HighResolutionIconUrl DefaultValue="https://localhost:3100/assets/icon-64.png"/>
+  <SupportUrl DefaultValue="https://localhost:3100/help.html"/>
+  <AppDomains>
+    <AppDomain>https://localhost:3100</AppDomain>
+  </AppDomains>
+  <Hosts>
+    <Host Name="Presentation"/>
+  </Hosts>
+  <Requirements>
+    <Sets DefaultMinVersion="1.1">
+      <Set Name="PowerPointApi" MinVersion="1.10"/>
+    </Sets>
+  </Requirements>
+  <DefaultSettings>
+    <SourceLocation DefaultValue="https://localhost:3100/taskpane.html"/>
+  </DefaultSettings>
+  <!-- Read/write is required by PowerPoint.run and selection events; the add-in never changes the presentation. -->
+  <Permissions>ReadWriteDocument</Permissions>
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="VersionOverridesV1_0">
+    <Hosts>
+      <Host xsi:type="Presentation">
+        <DesktopFormFactor>
+          <GetStarted>
+            <Title resid="GetStarted.Title"/>
+            <Description resid="GetStarted.Description"/>
+            <LearnMoreUrl resid="Help.Url"/>
+          </GetStarted>
+          <ExtensionPoint xsi:type="PrimaryCommandSurface">
+            <OfficeTab id="TabHome">
+              <Group id="WordCount.Group">
+                <Label resid="Group.Label"/>
+                <Icon>
+                  <bt:Image size="16" resid="Icon.16"/>
+                  <bt:Image size="32" resid="Icon.32"/>
+                  <bt:Image size="80" resid="Icon.80"/>
+                </Icon>
+                <Control xsi:type="Button" id="WordCount.ShowTaskpane">
+                  <Label resid="Button.Label"/>
+                  <Supertip>
+                    <Title resid="Button.Label"/>
+                    <Description resid="Button.Tooltip"/>
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.16"/>
+                    <bt:Image size="20" resid="Icon.20"/>
+                    <bt:Image size="24" resid="Icon.24"/>
+                    <bt:Image size="32" resid="Icon.32"/>
+                    <bt:Image size="40" resid="Icon.40"/>
+                    <bt:Image size="48" resid="Icon.48"/>
+                    <bt:Image size="64" resid="Icon.64"/>
+                    <bt:Image size="80" resid="Icon.80"/>
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>WordCountTaskpane</TaskpaneId>
+                    <SourceLocation resid="Taskpane.Url"/>
+                  </Action>
+                </Control>
+              </Group>
+            </OfficeTab>
+          </ExtensionPoint>
+        </DesktopFormFactor>
+      </Host>
+    </Hosts>
+    <Resources>
+      <bt:Images>
+        <bt:Image id="Icon.16" DefaultValue="https://localhost:3100/assets/icon-16.png"/>
+        <bt:Image id="Icon.20" DefaultValue="https://localhost:3100/assets/icon-20.png"/>
+        <bt:Image id="Icon.24" DefaultValue="https://localhost:3100/assets/icon-24.png"/>
+        <bt:Image id="Icon.32" DefaultValue="https://localhost:3100/assets/icon-32.png"/>
+        <bt:Image id="Icon.40" DefaultValue="https://localhost:3100/assets/icon-40.png"/>
+        <bt:Image id="Icon.48" DefaultValue="https://localhost:3100/assets/icon-48.png"/>
+        <bt:Image id="Icon.64" DefaultValue="https://localhost:3100/assets/icon-64.png"/>
+        <bt:Image id="Icon.80" DefaultValue="https://localhost:3100/assets/icon-80.png"/>
+      </bt:Images>
+      <bt:Urls>
+        <bt:Url id="Taskpane.Url" DefaultValue="https://localhost:3100/taskpane.html"/>
+        <bt:Url id="Help.Url" DefaultValue="https://localhost:3100/help.html"/>
+      </bt:Urls>
+      <bt:ShortStrings>
+        <bt:String id="GetStarted.Title" DefaultValue="Word Count is ready"/>
+        <bt:String id="Group.Label" DefaultValue="Word Count"/>
+        <bt:String id="Button.Label" DefaultValue="Word Count"/>
+      </bt:ShortStrings>
+      <bt:LongStrings>
+        <bt:String id="GetStarted.Description" DefaultValue="Choose Word Count on the Home tab, then select some text, a shape, a table or a group."/>
+        <bt:String id="Button.Tooltip" DefaultValue="Show live word and character counts for whatever is selected."/>
+      </bt:LongStrings>
+    </Resources>
+  </VersionOverrides>
+</OfficeApp>

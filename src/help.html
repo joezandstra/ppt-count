@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Word Count for PowerPoint – help</title>
+    <link rel="stylesheet" href="taskpane.css" />
+  </head>
+  <body>
+    <main class="help">
+      <h1>Word Count for PowerPoint</h1>
+      <p class="help__lead">See how many words and characters are in whatever you've selected: highlighted text, text boxes, placeholders, tables and groups.</p>
+
+      <h2>Using it</h2>
+      <ol>
+        <li>On the <strong>Home</strong> tab, choose <strong>Word Count</strong>. A pane opens on the right.</li>
+        <li>Select something. The counts update by themselves.</li>
+      </ol>
+      <table class="help__table">
+        <thead>
+          <tr>
+            <th scope="col">You select…</th>
+            <th scope="col">What's counted</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Some text inside a box (highlighted)</td>
+            <td>Only the highlighted text</td>
+          </tr>
+          <tr>
+            <td>One or more text boxes or placeholders</td>
+            <td>All of their text, added together</td>
+          </tr>
+          <tr>
+            <td>A table</td>
+            <td>Every cell (merged cells once)</td>
+          </tr>
+          <tr>
+            <td>A group</td>
+            <td>Every text box and table inside it, however deeply grouped</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>When you select several shapes, the pane also lists each one with its word count.</p>
+
+      <h2>How words and characters are counted</h2>
+      <p>The counts follow the same rules as Microsoft Word's Word Count, so you get the same numbers Word would give for the same text.</p>
+      <ul>
+        <li><strong>Words</strong> are separated by spaces. A hyphenated word (<em>well-known</em>), a web address or a number such as <em>3.14</em> is one word. An en or em dash between words (<em>before—after</em>) splits them. In Chinese and Japanese, each character counts as a word.</li>
+        <li><strong>Characters (no spaces)</strong> are letters, numbers, punctuation and symbols. An emoji counts as one character.</li>
+        <li><strong>Characters (with spaces)</strong> are the same, plus spaces and tabs. Line and paragraph breaks aren't counted.</li>
+      </ul>
+
+      <h2>Known limitations</h2>
+      <ul>
+        <li><strong>Charts, SmartArt and embedded objects</strong> can't be counted, because PowerPoint doesn't let add-ins read their text. The pane tells you when one has been left out.</li>
+        <li><strong>A cursor inside a word:</strong> on Mac and Windows, when the cursor is inside a word and nothing is highlighted, PowerPoint may report that word as selected, so the pane counts just that word. Click the border of the box so the whole box is selected to count all of it.</li>
+        <li><strong>Slide thumbnails hidden:</strong> if the slide thumbnails are hidden, PowerPoint may not report highlighted text, and the whole box is counted instead.</li>
+        <li><strong>Part of a table cell:</strong> highlighting part of a cell may count the whole table, depending on your version of PowerPoint.</li>
+        <li><strong>Slide master and layouts:</strong> PowerPoint doesn't report selections there, so they can't be counted.</li>
+        <li><strong>Automatic bullets and numbering</strong> aren't counted. Word counts them in documents, so a Word count of the same bulleted text can be slightly higher.</li>
+      </ul>
+
+      <h2 id="install">Installing Word Count</h2>
+      <p>Word Count needs a current version of PowerPoint: 16.105 or later on Mac, Version 2601 or later on Windows, or PowerPoint on the web.</p>
+      <p><a class="help__download" href="word-count-manifest.xml" download>Download the add-in file</a></p>
+
+      <h3>For a whole organisation (recommended)</h3>
+      <p>
+        A Microsoft 365 administrator can install it for everyone at once. In the Microsoft 365 admin center, go to <strong>Settings › Integrated apps › Upload custom apps</strong>, choose <strong>Office Add-in</strong>, and upload the file or paste this page's address with
+        <code>help.html</code> replaced by <code>word-count-manifest.xml</code>. It appears on the Home tab within a day, on Mac, Windows and the web.
+      </p>
+
+      <h3>On a Mac</h3>
+      <ol>
+        <li>Quit PowerPoint.</li>
+        <li>In Finder, choose <strong>Go › Go to Folder…</strong>, paste <code>~/Library/Containers/com.microsoft.Powerpoint/Data/Documents/wef</code> and press Return. If Finder can't find it, go to <code>…/Data/Documents</code> instead and create a folder named <code>wef</code> there.</li>
+        <li>Copy the downloaded <code>word-count-manifest.xml</code> into that folder. Leave anything else in the folder alone.</li>
+        <li>Open PowerPoint and a presentation, choose <strong>Home › Add-ins</strong>, and pick <strong>Word Count</strong>.</li>
+      </ol>
+
+      <h3>On Windows</h3>
+      <ol>
+        <li>In PowerPoint, choose <strong>Home › Add-ins › More Add-ins</strong>.</li>
+        <li>Open the <strong>My Add-ins</strong> tab, choose <strong>Manage My Add-ins › Upload My Add-in</strong>, and pick the downloaded file.</li>
+      </ol>
+
+      <h3>In PowerPoint on the web</h3>
+      <ol>
+        <li>Open a presentation and choose <strong>Home › Add-ins › More Settings</strong> (in some versions, <strong>Insert › Add-ins › My Add-ins</strong>).</li>
+        <li>Choose <strong>Upload My Add-in</strong> and pick the downloaded file. Your browser remembers it, so you'll need to do this again in a different browser or after clearing your browsing data.</li>
+      </ol>
+
+      <h2>Troubleshooting</h2>
+      <ul>
+        <li><strong>The numbers look stuck:</strong> choose <strong>Refresh</strong> at the bottom of the pane.</li>
+        <li><strong>The pane looks out of date after an update:</strong> on a Mac, open the small menu at the top of the pane and choose <strong>Clear Web Cache</strong>, then reopen the pane.</li>
+        <li><strong>It says "Please update PowerPoint":</strong> install the latest Office updates (on a Mac: <strong>Help › Check for Updates</strong>).</li>
+      </ul>
+    </main>
+  </body>
+</html>
