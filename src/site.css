@@ -1,0 +1,799 @@
+/* Word Count for PowerPoint: the website (help.html, index.html).
+   The task pane has its own stylesheet (taskpane.css).
+
+   Direction: warm and editorial, built around counting. Sections are numbered with
+   tally marks (I, II, III, IIII, then a crossed five for the last one). The icon's
+   bright orange-to-pink gradient is used for glow and decoration only; text and
+   buttons use deeper shades of the same colours so they stay readable (checked for
+   WCAG AA contrast in light and dark mode). */
+
+@property --n {
+  syntax: "<integer>";
+  inherits: false;
+  initial-value: 0;
+}
+
+:root {
+  color-scheme: light;
+  --bg: #fff7ef;
+  --bg-tint: #fdeee2;
+  --surface: #ffffff;
+  --ink: #2a1a14;
+  --muted: #6b5048;
+  --line: color-mix(in srgb, var(--ink) 12%, transparent);
+  --link: #b4371a;
+  --accent-a: #c2410c; /* deep orange: text and buttons */
+  --accent-b: #be185d; /* deep raspberry: text and buttons */
+  --glow-a: #ff8d13; /* the icon's colours: decoration only */
+  --glow-b: #fcc175;
+  --glow-c: #e75136;
+  --glow-d: #f25b88;
+  --grad-deep: linear-gradient(120deg, var(--accent-a), var(--accent-b));
+  --grad-bright: linear-gradient(135deg, var(--glow-a) 0%, var(--glow-c) 55%, var(--glow-d) 100%);
+  --shadow: 0 1px 2px rgb(60 20 10 / 0.06), 0 12px 32px -12px rgb(120 40 20 / 0.22);
+  --radius: 18px;
+  --display: "Fraunces", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --body: "Figtree", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --pane-bg: #ffffff;
+  --pane-tile: #f6f4f3;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --bg: #1c1411;
+    --bg-tint: #241a16;
+    --surface: #2a1f1b;
+    --ink: #fbede3;
+    --muted: #c4aba0;
+    --line: color-mix(in srgb, var(--ink) 14%, transparent);
+    --link: #ffb38a;
+    --grad-deep-text: linear-gradient(120deg, #fdba74, #f9a8d4);
+    --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 16px 40px -16px rgb(0 0 0 / 0.7);
+    --pane-bg: #292929;
+    --pane-tile: #333131;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 17px/1.6 var(--body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* A faint paper grain over everything. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+a {
+  color: var(--link);
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1px;
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+:focus-visible {
+  outline: 3px solid var(--glow-a);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+strong {
+  font-weight: 650;
+}
+
+.wrap {
+  width: min(1120px, 100% - 40px);
+  margin-inline: auto;
+}
+
+.skip {
+  position: absolute;
+  left: 16px;
+  top: -60px;
+  z-index: 200;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.skip:focus {
+  top: 16px;
+}
+
+/* ---------- Buttons ---------- */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 22px;
+  border-radius: 999px;
+  font-weight: 650;
+  font-size: 17px;
+  line-height: 1.2;
+  text-decoration: none;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+}
+
+.button--primary {
+  color: #fff;
+  background: var(--grad-deep);
+  box-shadow: 0 8px 22px -10px rgb(190 24 93 / 0.7), inset 0 1px 0 rgb(255 255 255 / 0.25);
+}
+
+.button--primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 26px -10px rgb(190 24 93 / 0.8), inset 0 1px 0 rgb(255 255 255 / 0.25);
+}
+
+.button--ghost {
+  color: var(--ink);
+  border: 1.5px solid var(--line);
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+}
+
+.button--ghost:hover {
+  border-color: color-mix(in srgb, var(--ink) 30%, transparent);
+}
+
+.button--large {
+  padding: 16px 28px;
+  font-size: 18px;
+}
+
+.button svg {
+  flex: none;
+}
+
+/* ---------- Hero ---------- */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(40px, 7vw, 88px) 0 clamp(56px, 8vw, 104px);
+}
+
+.hero__glow {
+  position: absolute;
+  top: -18%;
+  right: -12%;
+  width: min(900px, 90vw);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 35%, color-mix(in srgb, var(--glow-b) 70%, transparent), transparent 42%),
+    radial-gradient(circle at 55% 55%, color-mix(in srgb, var(--glow-a) 45%, transparent), transparent 58%),
+    radial-gradient(circle at 70% 75%, color-mix(in srgb, var(--glow-d) 40%, transparent), transparent 66%);
+  filter: blur(8px);
+  pointer-events: none;
+}
+
+.hero__grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+}
+
+.hero__icon {
+  display: block;
+  width: 84px;
+  height: 84px;
+  margin-bottom: 22px;
+  filter: drop-shadow(0 14px 22px rgb(231 81 54 / 0.35));
+}
+
+.hero__title {
+  margin: 0;
+  font-family: var(--display);
+  font-variation-settings: "SOFT" 100, "opsz" 144;
+  font-weight: 640;
+  font-size: clamp(2.6rem, 6.2vw, 4.6rem);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+}
+
+.hero__title-accent {
+  display: block;
+  background: var(--grad-deep-text, var(--grad-deep));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  padding-bottom: 0.06em; /* keeps descenders inside the clipped gradient */
+}
+
+.hero__subhead {
+  margin: 20px 0 0;
+  max-width: 22ch;
+  font-family: var(--display);
+  font-variation-settings: "SOFT" 100, "opsz" 48;
+  font-weight: 520;
+  font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.hero__lede {
+  margin: 18px 0 0;
+  max-width: 46ch;
+  color: var(--muted);
+  font-size: 18px;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.hero__platforms {
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  letter-spacing: 0.01em;
+}
+
+/* Page-load reveal, one element after another. */
+.hero__text > * {
+  animation: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.hero__text > :nth-child(2) { animation-delay: 0.06s; }
+.hero__text > :nth-child(3) { animation-delay: 0.14s; }
+.hero__text > :nth-child(4) { animation-delay: 0.22s; }
+.hero__text > :nth-child(5) { animation-delay: 0.3s; }
+.hero__text > :nth-child(6) { animation-delay: 0.38s; }
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+/* ---------- Hero illustration: a slide with highlighted words, and the pane counting them ---------- */
+
+.demo {
+  position: relative;
+  margin: 0;
+  min-height: 500px;
+}
+
+.demo__slide {
+  position: absolute;
+  top: 2%;
+  left: 0;
+  width: 84%;
+  aspect-ratio: 16 / 10;
+  padding: 7% 8%;
+  border-radius: 14px;
+  background: #fff;
+  color: #1f1f1f;
+  box-shadow: var(--shadow);
+  transform: rotate(-3deg);
+  animation: rise 0.9s 0.2s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.demo__slide-title {
+  margin: 0 0 6%;
+  font-family: var(--display);
+  font-variation-settings: "SOFT" 50, "opsz" 72;
+  font-weight: 600;
+  font-size: clamp(1.1rem, 2.2vw, 1.6rem);
+  text-align: center;
+}
+
+.demo__slide ul {
+  margin: 0;
+  padding-left: 1.1em;
+  font-size: clamp(0.8rem, 1.35vw, 1rem);
+  line-height: 1.8;
+}
+
+.demo__slide mark {
+  padding: 0.05em 0.1em;
+  border-radius: 3px;
+  color: inherit;
+  background: color-mix(in srgb, var(--glow-a) 32%, #fff);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--glow-a) 55%, transparent);
+}
+
+.demo__pane {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: min(260px, 56%);
+  padding: 0 16px 14px;
+  border-radius: 14px;
+  background: var(--pane-bg);
+  color: var(--ink);
+  box-shadow: var(--shadow), 0 0 0 1px var(--line);
+  transform: rotate(2deg);
+  animation: rise 0.9s 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  font-size: 13px;
+}
+
+.demo__pane-bar {
+  margin: 0 -16px 12px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--line);
+  font-weight: 650;
+  font-size: 12px;
+}
+
+.demo__context {
+  margin: 0 0 12px;
+  line-height: 1.35;
+}
+
+.demo__context strong {
+  display: block;
+  font-size: 14px;
+}
+
+.demo__context span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.demo__stat {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 2px;
+  padding: 10px 12px;
+  border-radius: 9px;
+  background: var(--pane-tile);
+}
+
+.demo__stat--words {
+  margin-bottom: 8px;
+}
+
+.demo__pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.demo__label {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+/* The numbers count up from 0 on load (a registered custom property animates the counter). */
+.demo__num {
+  counter-reset: n var(--n); /* on the element itself: --n doesn't inherit into ::before */
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  animation: count 1.4s 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.demo__num::before {
+  content: counter(n);
+}
+
+.demo__stat--words .demo__num {
+  font-size: 38px;
+  background: var(--grad-deep-text, var(--grad-deep));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@keyframes count {
+  from {
+    --n: 0;
+  }
+}
+
+.demo__foot {
+  margin: 12px 0 0;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 11px;
+}
+
+/* ---------- Sections ---------- */
+
+.section {
+  padding: clamp(56px, 8vw, 96px) 0;
+}
+
+.section--tint {
+  background: var(--bg-tint);
+}
+
+.section__head {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 14px;
+}
+
+.section__head h2 {
+  margin: 0;
+  font-family: var(--display);
+  font-variation-settings: "SOFT" 100, "opsz" 96;
+  font-weight: 620;
+  font-size: clamp(1.9rem, 3.6vw, 2.6rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.section__intro {
+  max-width: 60ch;
+  margin: 0 0 36px;
+  color: var(--muted);
+  font-size: 18px;
+}
+
+/* Tally-mark section numbers. */
+.tally {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  gap: 6px;
+  height: 34px;
+  padding-inline: 2px;
+}
+
+.tally i {
+  width: 5px;
+  border-radius: 3px;
+  background: var(--grad-bright);
+}
+
+.tally--five::after {
+  content: "";
+  position: absolute;
+  left: -6px;
+  right: -6px;
+  top: calc(50% - 2.5px);
+  height: 5px;
+  border-radius: 3px;
+  background: var(--grad-bright);
+  transform: rotate(-24deg);
+}
+
+/* ---------- What it counts ---------- */
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  padding: 24px 22px 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.card__icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 16px;
+  border-radius: 12px;
+  color: #fff;
+  background: var(--grad-bright);
+}
+
+.card h3 {
+  margin: 0 0 6px;
+  font-size: 18px;
+  line-height: 1.3;
+}
+
+.card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 16px;
+}
+
+/* ---------- How it counts ---------- */
+
+.rules {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(20px, 3vw, 40px);
+}
+
+.rule h3 {
+  margin: 0 0 8px;
+  padding-top: 14px;
+  border-top: 3px solid transparent;
+  border-image: var(--grad-bright) 1;
+  font-family: var(--display);
+  font-variation-settings: "SOFT" 100, "opsz" 48;
+  font-weight: 620;
+  font-size: 22px;
+  line-height: 1.25;
+}
+
+.rule h3 span {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.rule p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 16px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0 0 !important;
+  padding: 0;
+  list-style: none;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 14px;
+}
+
+.chip b {
+  color: var(--accent-b);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-color-scheme: dark) {
+  .chip b {
+    color: #f9a8d4;
+  }
+}
+
+/* ---------- Install ---------- */
+
+.download {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 24px;
+  margin-bottom: 36px;
+}
+
+.download__note {
+  margin: 0;
+  max-width: 40ch;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.download__note code {
+  font-size: 0.95em;
+}
+
+.platforms {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.platform {
+  position: relative;
+  padding: 26px 26px 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.platform--featured {
+  border-color: transparent;
+  background:
+    linear-gradient(var(--surface), var(--surface)) padding-box,
+    var(--grad-bright) border-box;
+  border: 2px solid transparent;
+  box-shadow: var(--shadow);
+}
+
+.platform h3 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 10px;
+  font-size: 19px;
+}
+
+.badge {
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--grad-deep);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+}
+
+.platform p,
+.platform li {
+  color: var(--muted);
+  font-size: 16px;
+}
+
+.platform p {
+  margin: 0;
+}
+
+.platform ol {
+  margin: 0;
+  padding-left: 1.3em;
+}
+
+.platform li + li {
+  margin-top: 6px;
+}
+
+.platform strong {
+  color: var(--ink);
+}
+
+code {
+  padding: 1px 6px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--ink) 7%, transparent);
+  color: var(--ink);
+  font: 0.88em/1.5 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  overflow-wrap: anywhere;
+}
+
+/* ---------- Good to know / troubleshooting ---------- */
+
+.notes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 40px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.notes li {
+  padding: 16px 0 0;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 16px;
+}
+
+.notes strong {
+  color: var(--ink);
+}
+
+/* Only the first bold phrase is the note's heading; later ones stay inline. */
+.notes li > strong:first-child {
+  display: block;
+  margin-bottom: 2px;
+}
+
+/* ---------- Footer ---------- */
+
+.footer {
+  padding: 36px 0 48px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+}
+
+.footer__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: auto;
+  color: var(--ink);
+  font-weight: 650;
+}
+
+/* ---------- Small screens ---------- */
+
+@media (max-width: 900px) {
+  .hero__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .demo {
+    min-height: 0;
+    height: min(118vw, 520px);
+    max-width: 560px;
+  }
+
+  .cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .rules,
+  .platforms,
+  .notes {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  body {
+    font-size: 16px;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .demo__slide {
+    width: 90%;
+  }
+
+  .demo__pane {
+    width: 64%;
+  }
+
+  .button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

@@ -1,4 +1,4 @@
-/* Word Count task pane and help page.
+/* Word Count task pane.
    Colours are tokens. PowerPoint's own UI colours, set by app.js as --office-bg
    and --office-fg, win when available so the pane blends into PowerPoint. */
 
@@ -249,78 +249,4 @@ body {
   .stats {
     grid-template-columns: 1fr;
   }
-}
-
-/* ---------- Help page ---------- */
-
-.help {
-  max-width: 680px;
-  margin: 0 auto;
-  padding: 24px 16px 48px;
-}
-
-.help h1 {
-  margin: 0 0 8px;
-  font-size: 24px;
-  line-height: 1.25;
-}
-
-.help h2 {
-  margin: 32px 0 8px;
-  font-size: 18px;
-}
-
-.help h3 {
-  margin: 20px 0 6px;
-  font-size: 15px;
-}
-
-.help p,
-.help li {
-  max-width: 65ch;
-}
-
-.help li + li {
-  margin-top: 4px;
-}
-
-.help__lead {
-  color: var(--muted);
-  font-size: 16px;
-}
-
-.help code {
-  padding: 1px 4px;
-  border-radius: 4px;
-  background: var(--surface);
-  font-size: 0.92em;
-  overflow-wrap: anywhere;
-}
-
-.help a {
-  color: var(--accent);
-}
-
-.help__table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 13px;
-}
-
-.help__table th,
-.help__table td {
-  padding: 8px;
-  border-bottom: 1px solid var(--border);
-  text-align: left;
-  vertical-align: top;
-}
-
-.help__download {
-  display: inline-block;
-  padding: 8px 14px;
-  border-radius: 6px;
-  background: var(--accent);
-  color: var(--pane-bg) !important;
-  font-weight: 600;
-  text-decoration: none;
 }

@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parent.parent
 MASTER = ROOT / "design" / "icon-master.png"
 OUT_DIR = ROOT / "assets"
 
-SIZES = [16, 20, 24, 32, 40, 48, 64, 80, 128]
+SIZES = [16, 20, 24, 32, 40, 48, 64, 80, 128, 256]  # 256 is for the website, not the manifest
 REDRAWN = {
     # size: (stroke width, gap between strokes, stroke top, stroke height), in pixels
     16: (1, 1, 4, 8),

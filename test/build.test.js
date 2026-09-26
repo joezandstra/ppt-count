@@ -30,6 +30,8 @@ test("copies the pane, help page, icons and production manifest, but not dev fil
     "refresher.js",
     "help.html",
     "index.html",
+    "site.css",
+    "assets/icon-256.png",
     "assets/icon-16.png",
     "assets/icon-80.png",
     "word-count-manifest.xml",
@@ -71,7 +73,9 @@ test("local scripts, styles and module imports are version-stamped; the Office.j
   assert.ok(html.includes(`href="taskpane.css?v=${v}"`));
   assert.ok(html.includes(`src="taskpane.js?v=${v}"`));
   assert.ok(html.includes('src="https://officeapis.public.onecdn.static.microsoft/1/office.js"'));
-  assert.ok(read("help.html").includes(`href="taskpane.css?v=${v}"`));
+  const help = read("help.html");
+  assert.ok(help.includes(`href="site.css?v=${v}"`));
+  assert.ok(help.includes('href="https://fonts.googleapis.com/css2?family=Figtree'), "web font URL untouched");
   assert.ok(read("taskpane.js").includes(`from "./app.js?v=${v}"`));
   const app = read("app.js");
   for (const module of ["./count.js", "./refresher.js", "./selection.js"]) assert.ok(app.includes(`"${module}?v=${v}"`), module);

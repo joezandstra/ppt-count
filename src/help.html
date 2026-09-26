@@ -3,107 +3,231 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Word Count for PowerPoint – help</title>
-    <link rel="stylesheet" href="taskpane.css" />
+    <title>Word Count for PowerPoint</title>
+    <meta name="description" content="PowerPoint's missing word and character count feature. Live counts for highlighted text, text boxes, tables and groups, counted the way Microsoft Word counts." />
+    <meta property="og:title" content="Word Count for PowerPoint" />
+    <meta property="og:description" content="PowerPoint's missing word and character count feature." />
+    <meta property="og:image" content="https://joezandstra.github.io/ppt-count/assets/icon-256.png" />
+    <meta name="theme-color" content="#ff8d13" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icon-32.png" />
+    <link rel="apple-touch-icon" href="assets/icon-256.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Fraunces:opsz,wght,SOFT@9..144,500..700,0..100&display=swap" />
+    <link rel="stylesheet" href="site.css" />
   </head>
   <body>
-    <main class="help">
-      <h1>Word Count for PowerPoint</h1>
-      <p class="help__lead">See how many words and characters are in whatever you've selected: highlighted text, text boxes, placeholders, tables and groups.</p>
+    <a class="skip" href="#main">Skip to content</a>
 
-      <h2>Using it</h2>
-      <ol>
-        <li>On the <strong>Home</strong> tab, choose <strong>Word Count</strong>. A pane opens on the right.</li>
-        <li>Select something. The counts update by themselves when you change the selection.</li>
-      </ol>
-      <table class="help__table">
-        <thead>
-          <tr>
-            <th scope="col">You select…</th>
-            <th scope="col">What's counted</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Some text inside a box (highlighted)</td>
-            <td>Only the highlighted text</td>
-          </tr>
-          <tr>
-            <td>One or more text boxes or placeholders</td>
-            <td>All of their text, added together</td>
-          </tr>
-          <tr>
-            <td>Some text inside a table cell (highlighted), or one or more cells</td>
-            <td>Only that text</td>
-          </tr>
-          <tr>
-            <td>A whole table</td>
-            <td>Every cell (merged cells once)</td>
-          </tr>
-          <tr>
-            <td>A group</td>
-            <td>Every text box and table inside it, however deeply grouped</td>
-          </tr>
-        </tbody>
-      </table>
-      <p>When you select several shapes, the pane also lists each one with its word count.</p>
+    <header class="hero">
+      <div class="hero__glow" aria-hidden="true"></div>
+      <div class="wrap hero__grid">
+        <div class="hero__text">
+          <img class="hero__icon" src="assets/icon-256.png" width="84" height="84" alt="" />
+          <h1 class="hero__title"><span class="hero__title-accent">Word Count</span> for PowerPoint</h1>
+          <p class="hero__subhead">PowerPoint's missing word and character count feature.</p>
+          <p class="hero__lede">Select some text, a text box, a table or a group, and see its words and characters as you go, counted the same way Microsoft Word counts them.</p>
+          <div class="hero__actions">
+            <a class="button button--primary" href="#install">
+              Install the add-in
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7" /></svg>
+            </a>
+            <a class="button button--ghost" href="#counting">How it counts</a>
+          </div>
+          <p class="hero__platforms">For PowerPoint on Mac, Windows and the web.</p>
+        </div>
 
-      <h2>How words and characters are counted</h2>
-      <p>The counts follow the same rules as Microsoft Word's Word Count, so you get the same numbers Word would give for the same text.</p>
-      <ul>
-        <li><strong>Words</strong> are separated by spaces. A hyphenated word (<em>well-known</em>), a web address or a number such as <em>3.14</em> is one word. An en or em dash between words (<em>before—after</em>) splits them. In Chinese and Japanese, each character counts as a word.</li>
-        <li><strong>Characters (no spaces)</strong> are letters, numbers, punctuation and symbols. Most emoji count as one character. Emoji with a skin tone, flags and combined emoji (such as families) count as two or more, as they do in Word.</li>
-        <li><strong>Characters (with spaces)</strong> are the same, plus spaces, tabs and line breaks (Shift+Enter, or Enter in a slide title). Paragraph breaks aren't counted.</li>
-      </ul>
+        <figure class="demo" aria-label="Example: words highlighted on a slide, and the Word Count pane showing 4 words, 15 characters without spaces and 18 with spaces.">
+          <div class="demo__slide" aria-hidden="true">
+            <p class="demo__slide-title">Quarterly results</p>
+            <ul>
+              <li>Revenue grew <mark>12% year over year</mark></li>
+              <li>New customers in three regions</li>
+              <li>Costs held flat</li>
+            </ul>
+          </div>
+          <div class="demo__pane" aria-hidden="true">
+            <div class="demo__pane-bar">Word Count</div>
+            <p class="demo__context"><strong>Highlighted text</strong><span>in Content Placeholder 2</span></p>
+            <div class="demo__stat demo__stat--words">
+              <span class="demo__label">Words</span>
+              <span class="demo__num" style="--n: 4"></span>
+            </div>
+            <div class="demo__pair">
+              <div class="demo__stat">
+                <span class="demo__label">Characters<br />(no spaces)</span>
+                <span class="demo__num" style="--n: 15"></span>
+              </div>
+              <div class="demo__stat">
+                <span class="demo__label">Characters<br />(with spaces)</span>
+                <span class="demo__num" style="--n: 18"></span>
+              </div>
+            </div>
+            <p class="demo__foot">Counted the way Microsoft Word counts</p>
+          </div>
+        </figure>
+      </div>
+    </header>
 
-      <h2>Known limitations</h2>
-      <ul>
-        <li><strong>Charts, SmartArt and embedded objects</strong> can't be counted, because PowerPoint doesn't let add-ins read their text. The pane tells you when one has been left out.</li>
-        <li><strong>Slide thumbnails hidden:</strong> if the slide thumbnails are hidden, PowerPoint may not report highlighted text, and the whole box is counted instead.</li>
-        <li><strong>Slide master and layouts:</strong> PowerPoint doesn't report selections there, so they can't be counted.</li>
-        <li><strong>Typing in PowerPoint on the web:</strong> the counts update when you change the selection, not while you type. Choose <strong>Refresh</strong> after editing. (On Mac and Windows they catch up within a couple of seconds.)</li>
-        <li><strong>Automatic bullets and numbering</strong> aren't counted. Word counts them in documents, so a Word count of the same bulleted text can be slightly higher.</li>
-      </ul>
+    <main id="main">
+      <section class="section" aria-labelledby="what-title">
+        <div class="wrap">
+          <div class="section__head">
+            <span class="tally" aria-hidden="true"><i></i></span>
+            <h2 id="what-title">What it counts</h2>
+          </div>
+          <p class="section__intro">Choose <strong>Word Count</strong> on the Home tab. A pane opens on the right, and the counts update by themselves whenever you change the selection.</p>
+          <ul class="cards">
+            <li class="card">
+              <span class="card__icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 18h11" /><rect x="3.5" y="9.5" width="12" height="5" rx="1.5" fill="currentColor" fill-opacity=".35" /><path d="M18.5 9v6" /></svg>
+              </span>
+              <h3>Highlighted text</h3>
+              <p>Just the text you've highlighted, inside a box or a table cell.</p>
+            </li>
+            <li class="card">
+              <span class="card__icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="2.5" /><path d="M7 9h10M7 13h10M7 17h6" /></svg>
+              </span>
+              <h3>Text boxes and placeholders</h3>
+              <p>All of their text. Select several and they're added together, with a count for each one.</p>
+            </li>
+            <li class="card">
+              <span class="card__icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="2.5" /><path d="M3 10h18M3 15h18M9.5 4v16M15 4v16" /></svg>
+              </span>
+              <h3>Tables</h3>
+              <p>Every cell, with merged cells counted once, or just the cells you select.</p>
+            </li>
+            <li class="card">
+              <span class="card__icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="11" height="11" rx="2" /><rect x="10" y="10" width="11" height="11" rx="2" /></svg>
+              </span>
+              <h3>Groups</h3>
+              <p>Every text box and table inside a group, however deeply it's grouped.</p>
+            </li>
+          </ul>
+        </div>
+      </section>
 
-      <h2 id="install">Installing Word Count</h2>
-      <p>Word Count needs a current version of PowerPoint: 16.105 or later on Mac, Version 2601 or later on Windows, or PowerPoint on the web.</p>
-      <p><a class="help__download" href="word-count-manifest.xml" download>Download the add-in file</a></p>
+      <section class="section section--tint" id="counting" aria-labelledby="counting-title">
+        <div class="wrap">
+          <div class="section__head">
+            <span class="tally" aria-hidden="true"><i></i><i></i></span>
+            <h2 id="counting-title">Counted the way Word counts</h2>
+          </div>
+          <p class="section__intro">The rules match Microsoft Word's Word Count, so you get the same numbers Word would give for the same text.</p>
+          <div class="rules">
+            <article class="rule">
+              <h3>Words</h3>
+              <p>Words are separated by spaces. A hyphenated word, a web address or a number such as 3.14 is one word. An en or em dash between words splits them. In Chinese and Japanese, each character counts as a word.</p>
+              <ul class="chips" aria-label="Examples">
+                <li class="chip">well-known <b>1 word</b></li>
+                <li class="chip">before—after <b>2 words</b></li>
+                <li class="chip">3.14 <b>1 word</b></li>
+              </ul>
+            </article>
+            <article class="rule">
+              <h3>Characters <span>(no spaces)</span></h3>
+              <p>Letters, numbers, punctuation and symbols. Most emoji count as one character. Emoji with a skin tone, flags and combined emoji (such as families) count as two or more, as they do in Word.</p>
+            </article>
+            <article class="rule">
+              <h3>Characters <span>(with spaces)</span></h3>
+              <p>The same, plus spaces, tabs and line breaks (Shift+Enter, or Enter in a slide title). Paragraph breaks aren't counted.</p>
+            </article>
+          </div>
+        </div>
+      </section>
 
-      <h3>For a whole organisation (recommended)</h3>
-      <p>
-        A Microsoft 365 administrator can install it for everyone at once. In the Microsoft 365 admin center, go to <strong>Settings › Integrated apps › Upload custom apps</strong>, choose <strong>Office Add-in</strong>, and upload the file or paste this page's address with
-        <code>help.html</code> replaced by <code>word-count-manifest.xml</code>. It appears on the Home tab within a day, on Mac, Windows and the web.
-      </p>
+      <section class="section" id="install" aria-labelledby="install-title">
+        <div class="wrap">
+          <div class="section__head">
+            <span class="tally" aria-hidden="true"><i></i><i></i><i></i></span>
+            <h2 id="install-title">Install Word Count</h2>
+          </div>
+          <p class="section__intro">Word Count needs a current version of PowerPoint: 16.105 or later on Mac, Version 2601 or later on Windows, or PowerPoint on the web.</p>
+          <div class="download">
+            <a class="button button--primary button--large" href="word-count-manifest.xml" download>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14" /></svg>
+              Download the add-in file
+            </a>
+            <p class="download__note">A small file called <code>word-count-manifest.xml</code>. You'll use it in the steps below.</p>
+          </div>
+          <div class="platforms">
+            <article class="platform platform--featured">
+              <h3>For a whole organisation <span class="badge">Recommended</span></h3>
+              <p>
+                A Microsoft 365 administrator can install it for everyone at once. In the Microsoft 365 admin center, go to <strong>Settings › Integrated apps › Upload custom apps</strong>, choose <strong>Office Add-in</strong>, and upload the file or paste this page's address with
+                <code>help.html</code> replaced by <code>word-count-manifest.xml</code>. It appears on the Home tab within a day, on Mac, Windows and the web.
+              </p>
+            </article>
+            <article class="platform">
+              <h3>On a Mac</h3>
+              <ol>
+                <li>Quit PowerPoint.</li>
+                <li>In Finder, choose <strong>Go › Go to Folder…</strong>, paste <code>~/Library/Containers/com.microsoft.Powerpoint/Data/Documents/wef</code> and press Return. If Finder can't find it, go to <code>~/Library/Containers/com.microsoft.Powerpoint/Data/Documents</code> instead and create a folder named <code>wef</code> there.</li>
+                <li>Copy the downloaded <code>word-count-manifest.xml</code> into that folder. Leave anything else in the folder alone.</li>
+                <li>Open PowerPoint and a presentation, choose <strong>Home › Add-ins</strong>, and pick <strong>Word Count</strong>.</li>
+              </ol>
+            </article>
+            <article class="platform">
+              <h3>On Windows</h3>
+              <ol>
+                <li>In PowerPoint, choose <strong>Home › Add-ins › More Add-ins</strong>.</li>
+                <li>Open the <strong>My Add-ins</strong> tab, choose <strong>Manage My Add-ins › Upload My Add-in</strong>, and pick the downloaded file.</li>
+              </ol>
+            </article>
+            <article class="platform">
+              <h3>In PowerPoint on the web</h3>
+              <ol>
+                <li>Open a presentation and choose <strong>Home › Add-ins › More Settings</strong> (in some versions, <strong>Insert › Add-ins › My Add-ins</strong>).</li>
+                <li>Choose <strong>Upload My Add-in</strong> and pick the downloaded file. Your browser remembers it, so you'll need to do this again in a different browser or after clearing your browsing data.</li>
+              </ol>
+            </article>
+          </div>
+        </div>
+      </section>
 
-      <h3>On a Mac</h3>
-      <ol>
-        <li>Quit PowerPoint.</li>
-        <li>In Finder, choose <strong>Go › Go to Folder…</strong>, paste <code>~/Library/Containers/com.microsoft.Powerpoint/Data/Documents/wef</code> and press Return. If Finder can't find it, go to <code>~/Library/Containers/com.microsoft.Powerpoint/Data/Documents</code> instead and create a folder named <code>wef</code> there.</li>
-        <li>Copy the downloaded <code>word-count-manifest.xml</code> into that folder. Leave anything else in the folder alone.</li>
-        <li>Open PowerPoint and a presentation, choose <strong>Home › Add-ins</strong>, and pick <strong>Word Count</strong>.</li>
-      </ol>
+      <section class="section section--tint" aria-labelledby="limits-title">
+        <div class="wrap">
+          <div class="section__head">
+            <span class="tally" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+            <h2 id="limits-title">Good to know</h2>
+          </div>
+          <ul class="notes">
+            <li><strong>Charts, SmartArt and embedded objects</strong>These can't be counted, because PowerPoint doesn't let add-ins read their text. The pane tells you when one has been left out.</li>
+            <li><strong>Slide thumbnails hidden</strong>If the slide thumbnails are hidden, PowerPoint may not report highlighted text, and the whole box is counted instead.</li>
+            <li><strong>Slide master and layouts</strong>PowerPoint doesn't report selections there, so they can't be counted.</li>
+            <li><strong>Typing in PowerPoint on the web</strong>The counts update when you change the selection, not while you type. Choose Refresh after editing. On Mac and Windows they catch up within a couple of seconds.</li>
+            <li><strong>Automatic bullets and numbering</strong>These aren't counted. Word counts them in documents, so a Word count of the same bulleted text can be slightly higher.</li>
+          </ul>
+        </div>
+      </section>
 
-      <h3>On Windows</h3>
-      <ol>
-        <li>In PowerPoint, choose <strong>Home › Add-ins › More Add-ins</strong>.</li>
-        <li>Open the <strong>My Add-ins</strong> tab, choose <strong>Manage My Add-ins › Upload My Add-in</strong>, and pick the downloaded file.</li>
-      </ol>
-
-      <h3>In PowerPoint on the web</h3>
-      <ol>
-        <li>Open a presentation and choose <strong>Home › Add-ins › More Settings</strong> (in some versions, <strong>Insert › Add-ins › My Add-ins</strong>).</li>
-        <li>Choose <strong>Upload My Add-in</strong> and pick the downloaded file. Your browser remembers it, so you'll need to do this again in a different browser or after clearing your browsing data.</li>
-      </ol>
-
-      <h2>Troubleshooting</h2>
-      <ul>
-        <li><strong>The numbers look stuck:</strong> choose <strong>Refresh</strong> at the bottom of the pane.</li>
-        <li><strong>The pane looks out of date after an update:</strong> on a Mac, open the small menu at the top of the pane and choose <strong>Clear Web Cache</strong>, then reopen the pane.</li>
-        <li>
-          <strong>Word Count doesn't appear after installing, or it says "Please update PowerPoint":</strong> check your version (Mac: <strong>PowerPoint › About PowerPoint</strong>; Windows: <strong>File › Account › About PowerPoint</strong>). You need 16.105 or later on Mac, or
-          Version 2601 or later on Windows. Update (Mac: <strong>Help › Check for Updates</strong>; Windows: <strong>File › Account › Update Options › Update Now</strong>), then quit and reopen PowerPoint. One-time-purchase Office (2021, 2024, LTSC) can't run Word Count; use PowerPoint on the web instead.
-        </li>
-      </ul>
+      <section class="section" aria-labelledby="help-title">
+        <div class="wrap">
+          <div class="section__head">
+            <span class="tally tally--five" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+            <h2 id="help-title">Troubleshooting</h2>
+          </div>
+          <ul class="notes">
+            <li><strong>The numbers look stuck</strong>Choose <strong>Refresh</strong> at the bottom of the pane.</li>
+            <li><strong>The pane looks out of date after an update</strong>On a Mac, open the small menu at the top of the pane and choose <strong>Clear Web Cache</strong>, then reopen the pane.</li>
+            <li>
+              <strong>Word Count doesn't appear, or says "Please update PowerPoint"</strong>Check your version (Mac: <strong>PowerPoint › About PowerPoint</strong>; Windows: <strong>File › Account › About PowerPoint</strong>). You need 16.105 or later on Mac, or Version 2601 or later on Windows. Update (Mac:
+              <strong>Help › Check for Updates</strong>; Windows: <strong>File › Account › Update Options › Update Now</strong>), then quit and reopen PowerPoint. One-time-purchase Office (2021, 2024, LTSC) can't run Word Count; use PowerPoint on the web instead.
+            </li>
+          </ul>
+        </div>
+      </section>
     </main>
+
+    <footer class="footer">
+      <div class="wrap footer__inner">
+        <span class="footer__brand"><img src="assets/icon-64.png" width="28" height="28" alt="" />Word Count for PowerPoint</span>
+        <a href="#install">Install</a>
+        <a href="https://github.com/joezandstra/ppt-count">Source on GitHub</a>
+      </div>
+    </footer>
   </body>
 </html>
