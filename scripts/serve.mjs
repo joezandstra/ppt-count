@@ -67,6 +67,8 @@ function resolvePath(pathname) {
 }
 
 async function handle(req, res) {
+  if (req.method === "POST" && req.url === "/__log") return logFromPane(req, res);
+  logRequest(req, res);
   let pathname;
   try {
     pathname = decodeURIComponent(new URL(req.url, "https://localhost").pathname);
@@ -89,6 +91,25 @@ async function handle(req, res) {
   } catch {
     send(res, 404, "Not found");
   }
+}
+
+// One line per request, so you can see what PowerPoint asked for (handy when a pane stays blank).
+function logRequest(req, res) {
+  res.on("finish", () => console.log(`${new Date().toISOString().slice(11, 19)} ${res.statusCode} ${req.method} ${req.url}`));
+}
+
+// Messages from src/devlog.js in the pane.
+function logFromPane(req, res) {
+  let body = "";
+  req.setEncoding("utf8");
+  req.on("data", (chunk) => {
+    if (body.length < 2000) body += chunk;
+  });
+  req.on("end", () => {
+    console.log(`${new Date().toISOString().slice(11, 19)} [pane] ${body.slice(0, 2000)}`);
+    res.writeHead(204);
+    res.end();
+  });
 }
 
 function send(res, status, text) {

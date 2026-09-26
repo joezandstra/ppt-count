@@ -24,9 +24,10 @@ const numberFormat = new Intl.NumberFormat();
 
 /**
  * Starts the pane inside `root`.
- * @param {{ Office: any, PowerPoint: any, root: HTMLElement, info: { host: string | null, platform: string | null } }} deps
+ * @param {{ Office: any, PowerPoint: any, root: HTMLElement, info: { host: string | null, platform: string | null }, log?: (message: string) => void }} deps
+ *   `log` receives a line per read (used by src/devlog.js during local development).
  */
-export function start({ Office, PowerPoint, root, info }) {
+export function start({ Office, PowerPoint, root, info, log = () => {} }) {
   const doc = root.ownerDocument;
   const view = createView(root);
 
@@ -45,16 +46,30 @@ export function start({ Office, PowerPoint, root, info }) {
   const applyOfficeTheme = () => applyTheme(doc.documentElement, Office.context.officeTheme);
   applyOfficeTheme();
 
+  let lastLogged = "";
   const refresher = createRefresher({
     read: () => PowerPoint.run((context) => readSelection(context)),
-    onResult: (snapshot) => view.render(summarize(snapshot)),
-    onError: () => view.showError(),
+    onResult: (snapshot) => {
+      const summary = summarize(snapshot);
+      const { words, characters, charactersWithSpaces } = summary.total;
+      const line = `read: ${snapshot.source}, ${snapshot.selectedCount} selected, ${snapshot.items.length} with text, ${snapshot.unsupported.length} unsupported → ${words}/${characters}/${charactersWithSpaces} "${describeSelection(summary).title}"`;
+      if (line !== lastLogged) log(line); // polling repeats identical reads
+      lastLogged = line;
+      view.render(summary);
+    },
+    onError: (error) => {
+      log(`read failed: ${error?.code ?? ""} ${error?.message ?? error}`);
+      view.showError();
+    },
     isEmpty: (snapshot) => snapshot.items.length === 0,
   });
 
   Office.context.document.addHandlerAsync(
     Office.EventType.DocumentSelectionChanged,
-    () => refresher.schedule(),
+    () => {
+      log("selection changed");
+      refresher.schedule();
+    },
     (result) => {
       if (result?.status === Office.AsyncResultStatus.Failed) {
         view.showNotice("Counts won't update by themselves here. Choose Refresh after changing the selection.");
@@ -66,8 +81,10 @@ export function start({ Office, PowerPoint, root, info }) {
     refresher.schedule();
   });
   doc.addEventListener("visibilitychange", () => {
+    log(`pane is ${doc.visibilityState}`);
     if (doc.visibilityState === "visible") refresher.schedule();
   });
+  log(`pane is ${doc.visibilityState}`);
   view.onRefresh(() => refresher.refreshNow());
 
   if (info.platform !== Office.PlatformType.OfficeOnline) {

@@ -29,7 +29,7 @@ test("a text box: its whole text, in three syncs", async () => {
   assert.ok(host.stats.syncs <= 3, `used ${host.stats.syncs} syncs`);
 });
 
-test("highlighted text counts only the highlight and names its shape, in one sync", async () => {
+test("highlighted text counts only the highlight and names its shape", async () => {
   const { snapshot, host } = await read(SCENARIOS.highlight);
   assert.deepEqual(snapshot, {
     source: "highlight",
@@ -37,7 +37,25 @@ test("highlighted text counts only the highlight and names its shape, in one syn
     items: [{ id: "103", name: "TextBox 3", kind: "highlight", texts: ["quick brown fox"] }],
     unsupported: [],
   });
-  assert.equal(host.stats.syncs, 1);
+  assert.ok(host.stats.syncs <= 3, `used ${host.stats.syncs} syncs`);
+});
+
+test("a whole box that PowerPoint reports as selected text counts as the box (PowerPoint for Mac)", async () => {
+  const { snapshot } = await read({ highlight: SENTENCE, selected: SCENARIOS.textBox.selected });
+  assert.equal(snapshot.source, "shapes");
+  assert.deepEqual(snapshot.items, [{ id: "103", name: "TextBox 3", kind: "text", texts: [SENTENCE] }]);
+});
+
+test("a whole table reported as selected text counts as the table, whatever separates its cells", async () => {
+  const highlight = "Region\tQ1\tQ2\rNorth\t1,200 units\t1,450 units\rSouth \u2014 combined total";
+  const { snapshot } = await read({ highlight, selected: SCENARIOS.table.selected });
+  assert.equal(snapshot.source, "shapes");
+  assert.equal(snapshot.items[0].kind, "table");
+});
+
+test("highlighting all but one word of a box is still a highlight", async () => {
+  const { snapshot } = await read({ highlight: "The quick brown fox jumps over the lazy", selected: SCENARIOS.textBox.selected });
+  assert.equal(snapshot.source, "highlight");
 });
 
 test("a highlight with no selected shape (e.g. speaker notes) has no name", async () => {
@@ -109,6 +127,11 @@ test("a shape selected together with its group is counted once", async () => {
   const group = { id: "g", name: "Group 1", type: "Group", shapes: [inner, other] };
   const { snapshot } = await read({ highlight: null, selected: [group, inner] });
   assert.deepEqual(snapshot.items.flatMap((i) => i.texts).sort(), ["inside", "sibling"]);
+});
+
+test("a chart that PowerPoint reports as a range with no text is treated as the chart", async () => {
+  const { snapshot } = await read({ highlight: { text: null }, selected: [{ id: "112", name: "Chart 12", type: "Chart" }] });
+  assert.deepEqual(snapshot, { source: "shapes", selectedCount: 1, items: [], unsupported: [{ id: "112", name: "Chart 12", type: "Chart" }] });
 });
 
 test("charts are reported as not countable; the rest still counts", async () => {

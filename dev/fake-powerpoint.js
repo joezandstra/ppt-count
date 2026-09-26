@@ -315,7 +315,9 @@ class FakePresentation {
       this._context,
       () => {
         const highlight = this._context._host.scenario.highlight;
-        return highlight == null ? NULL : { text: highlight };
+        if (highlight == null) return NULL;
+        // An object stands for an odd range, e.g. { text: null } as PowerPoint for Mac returns for charts.
+        return typeof highlight === "object" ? highlight : { text: highlight };
       },
       { nullable: true },
     );

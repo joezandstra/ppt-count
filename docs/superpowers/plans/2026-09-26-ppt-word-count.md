@@ -3765,3 +3765,26 @@ Five reviewers (Office API, counting, live updates, build/deploy, docs/UX) produ
 - `scripts/build.mjs`: the production manifest gets a neutral header comment.
 - `src/index.html`: redirects the site root to the help page.
 - `README.md`: where to type commands, prerequisites, how to stop the preview, more troubleshooting.
+
+## Addendum: findings from live testing in PowerPoint for Mac 16.113 (2026-09-26)
+
+Tested with a generated deck (title, body with a Shift+Enter break, table with a merged row, nested group, picture, chart, Japanese text with an emoji). Selections were driven by AppleScript, and each reading was checked from the pane's dev log.
+
+| Case | Result |
+|---|---|
+| Title (whole shape) | 2/16/17 "Title 1" ✔ (after the fix below) |
+| Body placeholder with paragraphs and a Shift+Enter break | 15/71/84 ✔, confirming how PowerPoint returns line-break characters |
+| Table with a merged row | 11/54/59 "Table 1", merged cell counted once ✔ |
+| Nested group | 6/25/29 "Group 1" ✔ |
+| Chart | "Can't count this" ✔ (after the fix below) |
+| Chart + text box | "2 shapes selected", 9/36/44, 1 not included ✔ |
+| Japanese + emoji | 17/35/41 ✔ |
+| Highlighted word ("Quarterly") | 1/9/9 "Highlighted text in Title 1" ✔, live update via selection event |
+| Partial highlight in a table cell | counts the whole table: the documented limitation |
+| Picture | PowerPoint's add-in API reports no selection, so the pane shows "Nothing selected" |
+
+Fixes:
+- `selection.js`: PowerPoint for Mac reports a whole selected box as a text range holding all its text. The reader now reads the shape and treats the range as the whole shape when it covers all of the shape's text, ignoring whitespace. PowerPoint also returns a non-null range with `text: null` for a selected chart, so the reader guards against null text.
+- Added `src/devlog.js` and request logging in `scripts/serve.mjs`: pane start-up steps, reads and errors go to the dev server log on localhost.
+
+Observed: a pane in a window that macOS considers hidden (covered by other windows) has `visibilityState` "hidden", renders nothing to window captures and pauses polling. It refreshes when it becomes visible again, as designed.

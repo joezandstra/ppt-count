@@ -31,20 +31,36 @@ export async function readSelection(context) {
   await context.sync();
 
   const shapes = selection.items;
+  // With a chart selected, PowerPoint for Mac returns a range whose text is null
+  // rather than a null object (seen on 16.113).
+  const rangeText = range.isNullObject ? "" : (range.text ?? "");
   // Highlighted text wins unless several shapes are selected (what the range means
   // then is undocumented). Never navigate from the range to its shape: that fails
   // for text inside table cells.
-  if (!range.isNullObject && range.text.length > 0 && shapes.length <= 1) {
+  if (rangeText.length > 0 && shapes.length <= 1) {
     const shape = shapes[0];
-    return {
+    const highlight = {
       source: "highlight",
       selectedCount: shapes.length,
-      items: [{ id: shape?.id ?? "", name: shape?.name ?? "", kind: "highlight", texts: [range.text] }],
+      items: [{ id: shape?.id ?? "", name: shape?.name ?? "", kind: "highlight", texts: [rangeText] }],
       unsupported: [],
     };
+    if (!shape) return highlight;
+    // PowerPoint for Mac also reports a whole selected box as "selected text"
+    // (seen on 16.113). If the range holds all of the shape's text, it's the shape.
+    const whole = await readShapes(context, shapes);
+    return coversAllText(rangeText, whole) ? whole : highlight;
   }
   if (shapes.length === 0) return { source: "none", selectedCount: 0, items: [], unsupported: [] };
   return readShapes(context, shapes);
+}
+
+// Compares ignoring whitespace, because how PowerPoint separates paragraphs or
+// table cells in a range's text is undocumented.
+function coversAllText(rangeText, snapshot) {
+  const squash = (text) => text.replace(/\s+/g, "");
+  const all = snapshot.items.flatMap((item) => item.texts).join("");
+  return squash(all).length > 0 && squash(rangeText) === squash(all);
 }
 
 /**
@@ -54,7 +70,7 @@ export async function readSelection(context) {
  * @returns {string[]}
  */
 export function tableCellTexts(cells) {
-  return cells.filter((cell) => !cell.isNullObject).map((cell) => cell.text);
+  return cells.filter((cell) => !cell.isNullObject).map((cell) => cell.text ?? "");
 }
 
 // Walks the selected shapes breadth first. Each round is one context.sync(), so a
@@ -249,7 +265,7 @@ function textRangeJob(shape, item, frame) {
       range.load("text");
     },
     read() {
-      item.texts.push(range.text);
+      item.texts.push(range.text ?? "");
       return {};
     },
   };
