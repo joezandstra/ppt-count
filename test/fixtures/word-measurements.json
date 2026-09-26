@@ -1,0 +1,3083 @@
+{
+ "description": "Word counts measured with Microsoft Word for Mac 16.113.2 (AppleScript compute text range statistics), 2026-09-26. Each text was inserted into a blank document and measured as a range excluding the final paragraph mark. Rows with hangulPerSyllable were measured on text not tagged as Korean.",
+ "rows": [
+  {
+   "id": "basic",
+   "text": "Hello world",
+   "words": 2,
+   "characters": 10,
+   "charactersWithSpaces": 11
+  },
+  {
+   "id": "double-space",
+   "text": "Hello  world",
+   "words": 2,
+   "characters": 10,
+   "charactersWithSpaces": 12
+  },
+  {
+   "id": "lead-trail-space",
+   "text": "  Hello world  ",
+   "words": 2,
+   "characters": 10,
+   "charactersWithSpaces": 15
+  },
+  {
+   "id": "tab",
+   "text": "a\tb",
+   "words": 2,
+   "characters": 2,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "two-tabs",
+   "text": "a\t\tb",
+   "words": 2,
+   "characters": 2,
+   "charactersWithSpaces": 4
+  },
+  {
+   "id": "para-CR",
+   "text": "a\rb",
+   "words": 2,
+   "characters": 2,
+   "charactersWithSpaces": 2
+  },
+  {
+   "id": "empty-para",
+   "text": "a\r\rb",
+   "words": 2,
+   "characters": 2,
+   "charactersWithSpaces": 2
+  },
+  {
+   "id": "LF",
+   "text": "a\nb",
+   "words": 2,
+   "characters": 2,
+   "charactersWithSpaces": 2
+  },
+  {
+   "id": "CRLF",
+   "text": "a\r\nb",
+   "words": 2,
+   "characters": 2,
+   "charactersWithSpaces": 2
+  },
+  {
+   "id": "VT-linebreak",
+   "text": "a\u000bb",
+   "words": 2,
+   "characters": 2,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "nbsp",
+   "text": "a b",
+   "words": 2,
+   "characters": 2,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "nbsp-words",
+   "text": "word word",
+   "words": 2,
+   "characters": 8,
+   "charactersWithSpaces": 9
+  },
+  {
+   "id": "narrow-nbsp",
+   "text": "a b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "en-space",
+   "text": "a b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "em-space",
+   "text": "a b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "thin-space",
+   "text": "a b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "hair-space",
+   "text": "a b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "figure-space",
+   "text": "a b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "ideographic-space",
+   "text": "a　b",
+   "words": 2,
+   "characters": 2,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "ogham-space",
+   "text": "a b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "spaced-hyphen",
+   "text": "word - word",
+   "words": 3,
+   "characters": 9,
+   "charactersWithSpaces": 11
+  },
+  {
+   "id": "spaced-amp",
+   "text": "word & word",
+   "words": 3,
+   "characters": 9,
+   "charactersWithSpaces": 11
+  },
+  {
+   "id": "spaced-emdash",
+   "text": "word — word",
+   "words": 2,
+   "characters": 9,
+   "charactersWithSpaces": 11
+  },
+  {
+   "id": "spaced-endash",
+   "text": "word – word",
+   "words": 2,
+   "characters": 9,
+   "charactersWithSpaces": 11
+  },
+  {
+   "id": "emdash-attached",
+   "text": "word—word",
+   "words": 2,
+   "characters": 9,
+   "charactersWithSpaces": 9
+  },
+  {
+   "id": "endash-attached",
+   "text": "word–word",
+   "words": 2,
+   "characters": 9,
+   "charactersWithSpaces": 9
+  },
+  {
+   "id": "hyphen",
+   "text": "well-known",
+   "words": 1,
+   "characters": 10,
+   "charactersWithSpaces": 10
+  },
+  {
+   "id": "email",
+   "text": "e-mail",
+   "words": 1,
+   "characters": 6,
+   "charactersWithSpaces": 6
+  },
+  {
+   "id": "figure-dash",
+   "text": "word‒word",
+   "words": 1,
+   "characters": 9,
+   "charactersWithSpaces": 9
+  },
+  {
+   "id": "horizontal-bar",
+   "text": "word―word",
+   "words": 1,
+   "characters": 9,
+   "charactersWithSpaces": 9
+  },
+  {
+   "id": "minus-sign",
+   "text": "word−word",
+   "words": 1,
+   "characters": 9,
+   "charactersWithSpaces": 9
+  },
+  {
+   "id": "nb-hyphen-2011",
+   "text": "word‑word",
+   "words": 1,
+   "characters": 9,
+   "charactersWithSpaces": 9
+  },
+  {
+   "id": "hyphen-2010",
+   "text": "word‐word",
+   "words": 1,
+   "characters": 9,
+   "charactersWithSpaces": 9
+  },
+  {
+   "id": "soft-hyphen",
+   "text": "word­word",
+   "words": 1,
+   "characters": 9,
+   "charactersWithSpaces": 9
+  },
+  {
+   "id": "zwsp",
+   "text": "word​word",
+   "words": 1,
+   "characters": 8,
+   "charactersWithSpaces": 8
+  },
+  {
+   "id": "zwnj",
+   "text": "word‌word",
+   "words": 1,
+   "characters": 8,
+   "charactersWithSpaces": 8
+  },
+  {
+   "id": "zwj",
+   "text": "word‍word",
+   "words": 1,
+   "characters": 8,
+   "charactersWithSpaces": 8
+  },
+  {
+   "id": "word-joiner",
+   "text": "word⁠word",
+   "words": 1,
+   "characters": 9,
+   "charactersWithSpaces": 9
+  },
+  {
+   "id": "bom",
+   "text": "word﻿word",
+   "words": 1,
+   "characters": 8,
+   "charactersWithSpaces": 8
+  },
+  {
+   "id": "lrm",
+   "text": "word‎word",
+   "words": 1,
+   "characters": 9,
+   "charactersWithSpaces": 9
+  },
+  {
+   "id": "apostrophe",
+   "text": "don't",
+   "words": 1,
+   "characters": 5,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "curly-apostrophe",
+   "text": "don’t",
+   "words": 1,
+   "characters": 5,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "pi",
+   "text": "3.14",
+   "words": 1,
+   "characters": 4,
+   "charactersWithSpaces": 4
+  },
+  {
+   "id": "usa",
+   "text": "U.S.A.",
+   "words": 1,
+   "characters": 6,
+   "charactersWithSpaces": 6
+  },
+  {
+   "id": "url",
+   "text": "https://example.com/a/b?x=1&y=2",
+   "words": 1,
+   "characters": 31,
+   "charactersWithSpaces": 31
+  },
+  {
+   "id": "slash",
+   "text": "a/b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "spaced-slash",
+   "text": "a / b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "backslash",
+   "text": "a\\b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "spaced-dots",
+   "text": ". . .",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "ellipsis-spaced",
+   "text": "The court … concluded",
+   "words": 4,
+   "characters": 18,
+   "charactersWithSpaces": 21
+  },
+  {
+   "id": "ellipsis-attached",
+   "text": "word…word",
+   "words": 1,
+   "characters": 9,
+   "charactersWithSpaces": 9
+  },
+  {
+   "id": "dots-attached",
+   "text": "word...word",
+   "words": 1,
+   "characters": 11,
+   "charactersWithSpaces": 11
+  },
+  {
+   "id": "emdash-alone",
+   "text": "—",
+   "words": 0,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "endash-alone",
+   "text": "–",
+   "words": 0,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "hyphen-alone",
+   "text": "-",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "amp-alone",
+   "text": "&",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "asterisks-spaced",
+   "text": "* * *",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "asterisks",
+   "text": "***",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "emdash-quote",
+   "text": "\"Remember, we—\"",
+   "words": 3,
+   "characters": 14,
+   "charactersWithSpaces": 15
+  },
+  {
+   "id": "emdash-lead",
+   "text": "—word",
+   "words": 1,
+   "characters": 5,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "emdash-trail",
+   "text": "word—",
+   "words": 1,
+   "characters": 5,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "double-hyphen",
+   "text": "word--word",
+   "words": 2,
+   "characters": 10,
+   "charactersWithSpaces": 10
+  },
+  {
+   "id": "comma-attached",
+   "text": "word,word",
+   "words": 1,
+   "characters": 9,
+   "charactersWithSpaces": 9
+  },
+  {
+   "id": "semicolon-attached",
+   "text": "word;word",
+   "words": 1,
+   "characters": 9,
+   "charactersWithSpaces": 9
+  },
+  {
+   "id": "colon-attached",
+   "text": "word:word",
+   "words": 1,
+   "characters": 9,
+   "charactersWithSpaces": 9
+  },
+  {
+   "id": "excl-attached",
+   "text": "word!word",
+   "words": 1,
+   "characters": 9,
+   "charactersWithSpaces": 9
+  },
+  {
+   "id": "q-attached",
+   "text": "word?word",
+   "words": 1,
+   "characters": 9,
+   "charactersWithSpaces": 9
+  },
+  {
+   "id": "plus-attached",
+   "text": "word+word",
+   "words": 1,
+   "characters": 9,
+   "charactersWithSpaces": 9
+  },
+  {
+   "id": "eq-attached",
+   "text": "word=word",
+   "words": 1,
+   "characters": 9,
+   "charactersWithSpaces": 9
+  },
+  {
+   "id": "pipe-attached",
+   "text": "word|word",
+   "words": 1,
+   "characters": 9,
+   "charactersWithSpaces": 9
+  },
+  {
+   "id": "underscore",
+   "text": "word_word",
+   "words": 1,
+   "characters": 9,
+   "charactersWithSpaces": 9
+  },
+  {
+   "id": "tilde",
+   "text": "word~word",
+   "words": 1,
+   "characters": 9,
+   "charactersWithSpaces": 9
+  },
+  {
+   "id": "parens",
+   "text": "(word)",
+   "words": 1,
+   "characters": 6,
+   "charactersWithSpaces": 6
+  },
+  {
+   "id": "smart-quotes",
+   "text": "“word”",
+   "words": 1,
+   "characters": 6,
+   "charactersWithSpaces": 6
+  },
+  {
+   "id": "guillemets-spaced",
+   "text": "« word »",
+   "words": 3,
+   "characters": 6,
+   "charactersWithSpaces": 8
+  },
+  {
+   "id": "spaced-period",
+   "text": "word .",
+   "words": 2,
+   "characters": 5,
+   "charactersWithSpaces": 6
+  },
+  {
+   "id": "bullet-char",
+   "text": "• item",
+   "words": 1,
+   "characters": 5,
+   "charactersWithSpaces": 6
+  },
+  {
+   "id": "hash",
+   "text": "#1",
+   "words": 1,
+   "characters": 2,
+   "charactersWithSpaces": 2
+  },
+  {
+   "id": "dollar",
+   "text": "$100",
+   "words": 1,
+   "characters": 4,
+   "charactersWithSpaces": 4
+  },
+  {
+   "id": "percent-spaced",
+   "text": "100 %",
+   "words": 2,
+   "characters": 4,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "cpp",
+   "text": "C++",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "at",
+   "text": "@user",
+   "words": 1,
+   "characters": 5,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "num-comma",
+   "text": "1,000",
+   "words": 1,
+   "characters": 5,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "num-time",
+   "text": "12:30",
+   "words": 1,
+   "characters": 5,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "date-iso",
+   "text": "2024-01-01",
+   "words": 1,
+   "characters": 10,
+   "charactersWithSpaces": 10
+  },
+  {
+   "id": "num-space",
+   "text": "1 000",
+   "words": 2,
+   "characters": 4,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "cjk-2",
+   "text": "世界",
+   "words": 2,
+   "characters": 2,
+   "charactersWithSpaces": 2
+  },
+  {
+   "id": "latin-cjk",
+   "text": "Hello世界",
+   "words": 3,
+   "characters": 7,
+   "charactersWithSpaces": 7
+  },
+  {
+   "id": "cjk-latin",
+   "text": "世界Hello",
+   "words": 3,
+   "characters": 7,
+   "charactersWithSpaces": 7
+  },
+  {
+   "id": "latin-cjk-latin",
+   "text": "abc世界def",
+   "words": 4,
+   "characters": 8,
+   "charactersWithSpaces": 8
+  },
+  {
+   "id": "cjk-space-latin",
+   "text": "世界 world",
+   "words": 3,
+   "characters": 7,
+   "charactersWithSpaces": 8
+  },
+  {
+   "id": "cjk-fw-punct",
+   "text": "你好，世界。",
+   "words": 6,
+   "characters": 6,
+   "charactersWithSpaces": 6
+  },
+  {
+   "id": "hi-fw-comma",
+   "text": "Hi， this is a test",
+   "words": 6,
+   "characters": 14,
+   "charactersWithSpaces": 18
+  },
+  {
+   "id": "hiragana",
+   "text": "こんにちは",
+   "words": 5,
+   "characters": 5,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "katakana",
+   "text": "カタカナ",
+   "words": 4,
+   "characters": 4,
+   "charactersWithSpaces": 4
+  },
+  {
+   "id": "hw-katakana",
+   "text": "ｶﾀｶﾅ",
+   "words": 4,
+   "characters": 4,
+   "charactersWithSpaces": 4
+  },
+  {
+   "id": "hangul-spaced",
+   "text": "안녕하세요 세계",
+   "words": 7,
+   "characters": 7,
+   "charactersWithSpaces": 8,
+   "hangulPerSyllable": true
+  },
+  {
+   "id": "hangul-nospace",
+   "text": "안녕하세요세계",
+   "words": 7,
+   "characters": 7,
+   "charactersWithSpaces": 7,
+   "hangulPerSyllable": true
+  },
+  {
+   "id": "hangul-latin",
+   "text": "안녕abc",
+   "words": 3,
+   "characters": 5,
+   "charactersWithSpaces": 5,
+   "hangulPerSyllable": true
+  },
+  {
+   "id": "fw-latin",
+   "text": "ＡＢＣ",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "fw-digits",
+   "text": "１２３",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "jp-mixed",
+   "text": "休日の過ごし方～how to spend the holidays～",
+   "words": 14,
+   "characters": 30,
+   "charactersWithSpaces": 34
+  },
+  {
+   "id": "cjk-digits",
+   "text": "日本語123",
+   "words": 4,
+   "characters": 6,
+   "charactersWithSpaces": 6
+  },
+  {
+   "id": "cjk-ideo-space",
+   "text": "世界　世界",
+   "words": 4,
+   "characters": 4,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "jp-brackets",
+   "text": "「日本」",
+   "words": 4,
+   "characters": 4,
+   "charactersWithSpaces": 4
+  },
+  {
+   "id": "cjk-extB",
+   "text": "𠀀",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "bopomofo",
+   "text": "ㄅㄆ",
+   "words": 2,
+   "characters": 2,
+   "charactersWithSpaces": 2
+  },
+  {
+   "id": "cjk-compat",
+   "text": "豈",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "thai",
+   "text": "สวัสดีครับ",
+   "words": 1,
+   "characters": 10,
+   "charactersWithSpaces": 10
+  },
+  {
+   "id": "arabic",
+   "text": "مرحبا بالعالم",
+   "words": 2,
+   "characters": 12,
+   "charactersWithSpaces": 13
+  },
+  {
+   "id": "hindi",
+   "text": "नमस्ते दुनिया",
+   "words": 2,
+   "characters": 12,
+   "charactersWithSpaces": 13
+  },
+  {
+   "id": "emoji",
+   "text": "👍",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "emoji-skin",
+   "text": "👍🏽",
+   "words": 1,
+   "characters": 2,
+   "charactersWithSpaces": 2
+  },
+  {
+   "id": "emoji-family-zwj",
+   "text": "👨‍👩‍👧",
+   "words": 1,
+   "characters": 5,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "flag",
+   "text": "🇺🇸",
+   "words": 1,
+   "characters": 2,
+   "charactersWithSpaces": 2
+  },
+  {
+   "id": "heart-vs16",
+   "text": "❤️",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "two-emoji",
+   "text": "😀😀",
+   "words": 1,
+   "characters": 2,
+   "charactersWithSpaces": 2
+  },
+  {
+   "id": "hi-space-emoji",
+   "text": "Hi 👍",
+   "words": 2,
+   "characters": 3,
+   "charactersWithSpaces": 4
+  },
+  {
+   "id": "hi-emoji",
+   "text": "Hi👍",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "e-acute",
+   "text": "é",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "e-combining",
+   "text": "é",
+   "words": 1,
+   "characters": 2,
+   "charactersWithSpaces": 2
+  },
+  {
+   "id": "cafe-nfc",
+   "text": "café",
+   "words": 1,
+   "characters": 4,
+   "charactersWithSpaces": 4
+  },
+  {
+   "id": "cafe-nfd",
+   "text": "café",
+   "words": 1,
+   "characters": 5,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "combining-alone",
+   "text": "́",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "math-bold-A",
+   "text": "𝐀",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "zwsp-alone",
+   "text": "​",
+   "words": 0,
+   "characters": 0,
+   "charactersWithSpaces": 0
+  },
+  {
+   "id": "zwj-alone",
+   "text": "‍",
+   "words": 0,
+   "characters": 0,
+   "charactersWithSpaces": 0
+  },
+  {
+   "id": "shy-alone",
+   "text": "­",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "nbsp-alone",
+   "text": " ",
+   "words": 0,
+   "characters": 0,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "tab-alone",
+   "text": "\t",
+   "words": 0,
+   "characters": 0,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "space-alone",
+   "text": " ",
+   "words": 0,
+   "characters": 0,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "mixed-ws",
+   "text": "a  \tb",
+   "words": 2,
+   "characters": 2,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "sentence",
+   "text": "The quick brown fox — it jumped – over 3.5 lazy dogs.",
+   "words": 10,
+   "characters": 42,
+   "charactersWithSpaces": 53
+  },
+  {
+   "id": "word-q-emdash-4",
+   "text": "\"This — as expected — irritated.\"",
+   "words": 4,
+   "characters": 28,
+   "charactersWithSpaces": 33
+  },
+  {
+   "id": "page-break-ff",
+   "text": "a\fb",
+   "words": 2,
+   "characters": 2,
+   "charactersWithSpaces": 2
+  },
+  {
+   "id": "word-internal-nbhy-30",
+   "text": "a\u001eb",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "word-internal-opt-31",
+   "text": "a\u001fb",
+   "words": 1,
+   "characters": 2,
+   "charactersWithSpaces": 2
+  },
+  {
+   "id": "alone:2022",
+   "text": "•",
+   "words": 0,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:2022",
+   "text": "a • b",
+   "words": 2,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:2022",
+   "text": "a•b",
+   "words": 2,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:00B7",
+   "text": "·",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:00B7",
+   "text": "a · b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:00B7",
+   "text": "a·b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:00A7",
+   "text": "§",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:00A7",
+   "text": "a § b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:00A7",
+   "text": "a§b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:00B6",
+   "text": "¶",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:00B6",
+   "text": "a ¶ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:00B6",
+   "text": "a¶b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:00A9",
+   "text": "©",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:00A9",
+   "text": "a © b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:00A9",
+   "text": "a©b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:00AE",
+   "text": "®",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:00AE",
+   "text": "a ® b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:00AE",
+   "text": "a®b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:2122",
+   "text": "™",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:2122",
+   "text": "a ™ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:2122",
+   "text": "a™b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:00B0",
+   "text": "°",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:00B0",
+   "text": "a ° b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:00B0",
+   "text": "a°b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:00B1",
+   "text": "±",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:00B1",
+   "text": "a ± b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:00B1",
+   "text": "a±b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:00D7",
+   "text": "×",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:00D7",
+   "text": "a × b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:00D7",
+   "text": "a×b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:00F7",
+   "text": "÷",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:00F7",
+   "text": "a ÷ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:00F7",
+   "text": "a÷b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:2192",
+   "text": "→",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:2192",
+   "text": "a → b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:2192",
+   "text": "a→b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:2190",
+   "text": "←",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:2190",
+   "text": "a ← b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:2190",
+   "text": "a←b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:25A0",
+   "text": "■",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:25A0",
+   "text": "a ■ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:25A0",
+   "text": "a■b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:25CF",
+   "text": "●",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:25CF",
+   "text": "a ● b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:25CF",
+   "text": "a●b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:2605",
+   "text": "★",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:2605",
+   "text": "a ★ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:2605",
+   "text": "a★b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:2713",
+   "text": "✓",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:2713",
+   "text": "a ✓ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:2713",
+   "text": "a✓b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:2026",
+   "text": "…",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:2026",
+   "text": "a … b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:2026",
+   "text": "a…b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:007C",
+   "text": "|",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:007C",
+   "text": "a | b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:007C",
+   "text": "a|b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:002F",
+   "text": "/",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "alone:005C",
+   "text": "\\",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:005C",
+   "text": "a \\ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "alone:0040",
+   "text": "@",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:0040",
+   "text": "a @ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:0040",
+   "text": "a@b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:0023",
+   "text": "#",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:0023",
+   "text": "a # b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:0023",
+   "text": "a#b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:0024",
+   "text": "$",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:0024",
+   "text": "a $ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:0024",
+   "text": "a$b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:20AC",
+   "text": "€",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:20AC",
+   "text": "a € b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:20AC",
+   "text": "a€b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:00A3",
+   "text": "£",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:00A3",
+   "text": "a £ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:00A3",
+   "text": "a£b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:00A5",
+   "text": "¥",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:00A5",
+   "text": "a ¥ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:00A5",
+   "text": "a¥b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:0025",
+   "text": "%",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:0025",
+   "text": "a % b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:0025",
+   "text": "a%b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:005E",
+   "text": "^",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:005E",
+   "text": "a ^ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:005E",
+   "text": "a^b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:007E",
+   "text": "~",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:007E",
+   "text": "a ~ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:007E",
+   "text": "a~b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:0060",
+   "text": "`",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:0060",
+   "text": "a ` b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:0060",
+   "text": "a`b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:0027",
+   "text": "'",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:0027",
+   "text": "a ' b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:0027",
+   "text": "a'b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:0022",
+   "text": "\"",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:0022",
+   "text": "a \" b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:0022",
+   "text": "a\"b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:201C",
+   "text": "“",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:201C",
+   "text": "a “ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:201C",
+   "text": "a“b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:201D",
+   "text": "”",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:201D",
+   "text": "a ” b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:201D",
+   "text": "a”b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:2018",
+   "text": "‘",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:2018",
+   "text": "a ‘ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:2018",
+   "text": "a‘b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:2019",
+   "text": "’",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:2019",
+   "text": "a ’ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:2019",
+   "text": "a’b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:0028",
+   "text": "(",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:0028",
+   "text": "a ( b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:0028",
+   "text": "a(b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:0029",
+   "text": ")",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:0029",
+   "text": "a ) b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:0029",
+   "text": "a)b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:005B",
+   "text": "[",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:005B",
+   "text": "a [ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:005B",
+   "text": "a[b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:005D",
+   "text": "]",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:005D",
+   "text": "a ] b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:005D",
+   "text": "a]b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:007B",
+   "text": "{",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:007B",
+   "text": "a { b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:007B",
+   "text": "a{b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:007D",
+   "text": "}",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:007D",
+   "text": "a } b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:007D",
+   "text": "a}b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:003C",
+   "text": "<",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:003C",
+   "text": "a < b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:003C",
+   "text": "a<b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:003E",
+   "text": ">",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:003E",
+   "text": "a > b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:003E",
+   "text": "a>b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:0021",
+   "text": "!",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:0021",
+   "text": "a ! b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:0021",
+   "text": "a!b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:003F",
+   "text": "?",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:003F",
+   "text": "a ? b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:003F",
+   "text": "a?b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:002C",
+   "text": ",",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:002C",
+   "text": "a , b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:002C",
+   "text": "a,b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:003B",
+   "text": ";",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:003B",
+   "text": "a ; b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:003B",
+   "text": "a;b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:003A",
+   "text": ":",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:003A",
+   "text": "a : b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:003A",
+   "text": "a:b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:005F",
+   "text": "_",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:005F",
+   "text": "a _ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:005F",
+   "text": "a_b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:002B",
+   "text": "+",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:002B",
+   "text": "a + b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:002B",
+   "text": "a+b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:003D",
+   "text": "=",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:003D",
+   "text": "a = b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:003D",
+   "text": "a=b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "spaced:002D",
+   "text": "a - b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:002D",
+   "text": "a-b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:002D+002D",
+   "text": "--",
+   "words": 1,
+   "characters": 2,
+   "charactersWithSpaces": 2
+  },
+  {
+   "id": "spaced:002D+002D",
+   "text": "a -- b",
+   "words": 3,
+   "characters": 4,
+   "charactersWithSpaces": 6
+  },
+  {
+   "id": "attached:002D+002D",
+   "text": "a--b",
+   "words": 2,
+   "characters": 4,
+   "charactersWithSpaces": 4
+  },
+  {
+   "id": "alone:002D+002D+002D",
+   "text": "---",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "spaced:002D+002D+002D",
+   "text": "a --- b",
+   "words": 3,
+   "characters": 5,
+   "charactersWithSpaces": 7
+  },
+  {
+   "id": "attached:002D+002D+002D",
+   "text": "a---b",
+   "words": 2,
+   "characters": 5,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "spaced:2013",
+   "text": "a – b",
+   "words": 2,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:2013",
+   "text": "a–b",
+   "words": 2,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "spaced:2014",
+   "text": "a — b",
+   "words": 2,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:2014",
+   "text": "a—b",
+   "words": 2,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:2015",
+   "text": "―",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:2015",
+   "text": "a ― b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:2015",
+   "text": "a―b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:2012",
+   "text": "‒",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:2012",
+   "text": "a ‒ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:2012",
+   "text": "a‒b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:2212",
+   "text": "−",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:2212",
+   "text": "a − b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:2212",
+   "text": "a−b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:2010",
+   "text": "‐",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:2010",
+   "text": "a ‐ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:2010",
+   "text": "a‐b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:2011",
+   "text": "‑",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:2011",
+   "text": "a ‑ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:2011",
+   "text": "a‑b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "spaced:00AD",
+   "text": "a ­ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:00AD",
+   "text": "a­b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:2020",
+   "text": "†",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:2020",
+   "text": "a † b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:2020",
+   "text": "a†b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:2021",
+   "text": "‡",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:2021",
+   "text": "a ‡ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:2021",
+   "text": "a‡b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:203B",
+   "text": "※",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:203B",
+   "text": "a ※ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "alone:2030",
+   "text": "‰",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:2030",
+   "text": "a ‰ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:2030",
+   "text": "a‰b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:2032",
+   "text": "′",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:2032",
+   "text": "a ′ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:2032",
+   "text": "a′b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:2033",
+   "text": "″",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:2033",
+   "text": "a ″ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:2033",
+   "text": "a″b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:00BF",
+   "text": "¿",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:00BF",
+   "text": "a ¿ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:00BF",
+   "text": "a¿b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:00A1",
+   "text": "¡",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:00A1",
+   "text": "a ¡ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:00A1",
+   "text": "a¡b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:00AB",
+   "text": "«",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:00AB",
+   "text": "a « b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:00AB",
+   "text": "a«b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:00BB",
+   "text": "»",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:00BB",
+   "text": "a » b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:00BB",
+   "text": "a»b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:2039",
+   "text": "‹",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:2039",
+   "text": "a ‹ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:2039",
+   "text": "a‹b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:203A",
+   "text": "›",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:203A",
+   "text": "a › b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:203A",
+   "text": "a›b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:25E6",
+   "text": "◦",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:25E6",
+   "text": "a ◦ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:25E6",
+   "text": "a◦b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:2043",
+   "text": "⁃",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:2043",
+   "text": "a ⁃ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:2043",
+   "text": "a⁃b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:2219",
+   "text": "∙",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:2219",
+   "text": "a ∙ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:2219",
+   "text": "a∙b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:00A4",
+   "text": "¤",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:00A4",
+   "text": "a ¤ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:00A4",
+   "text": "a¤b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:00AC",
+   "text": "¬",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:00AC",
+   "text": "a ¬ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:00AC",
+   "text": "a¬b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:00A6",
+   "text": "¦",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:00A6",
+   "text": "a ¦ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:00A6",
+   "text": "a¦b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:00A8",
+   "text": "¨",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:00A8",
+   "text": "a ¨ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:00A8",
+   "text": "a¨b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:00AF",
+   "text": "¯",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:00AF",
+   "text": "a ¯ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:00AF",
+   "text": "a¯b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:00B4",
+   "text": "´",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:00B4",
+   "text": "a ´ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:00B4",
+   "text": "a´b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:00B8",
+   "text": "¸",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:00B8",
+   "text": "a ¸ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:00B8",
+   "text": "a¸b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:02C6",
+   "text": "ˆ",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:02C6",
+   "text": "a ˆ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:02C6",
+   "text": "aˆb",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alone:02DC",
+   "text": "˜",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "spaced:02DC",
+   "text": "a ˜ b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "attached:02DC",
+   "text": "a˜b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "attached:FE0F",
+   "text": "a️b",
+   "words": 1,
+   "characters": 2,
+   "charactersWithSpaces": 2
+  },
+  {
+   "id": "spaced:200D",
+   "text": "a ‍ b",
+   "words": 2,
+   "characters": 2,
+   "charactersWithSpaces": 4
+  },
+  {
+   "id": "attached:200D",
+   "text": "a‍b",
+   "words": 1,
+   "characters": 2,
+   "charactersWithSpaces": 2
+  },
+  {
+   "id": "zwj-emoji2",
+   "text": "👨‍👩",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "a-zwj-emoji",
+   "text": "a‍👩",
+   "words": 1,
+   "characters": 2,
+   "charactersWithSpaces": 2
+  },
+  {
+   "id": "emoji-zwj-a",
+   "text": "👩‍a",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "vs15",
+   "text": "❤︎",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "keycap",
+   "text": "1️⃣",
+   "words": 1,
+   "characters": 2,
+   "charactersWithSpaces": 2
+  },
+  {
+   "id": "cyr-one",
+   "text": "мир",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "latin-ext",
+   "text": "Łódź",
+   "words": 1,
+   "characters": 4,
+   "charactersWithSpaces": 4
+  },
+  {
+   "id": "hebrew",
+   "text": "שלום עולם",
+   "words": 2,
+   "characters": 8,
+   "charactersWithSpaces": 9
+  },
+  {
+   "id": "space-hyphen-space-hyphen",
+   "text": "a - - b",
+   "words": 4,
+   "characters": 4,
+   "charactersWithSpaces": 7
+  },
+  {
+   "id": "dash-lead",
+   "text": "-word",
+   "words": 1,
+   "characters": 5,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "dash-trail",
+   "text": "word-",
+   "words": 1,
+   "characters": 5,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "dd-lead",
+   "text": "--word",
+   "words": 2,
+   "characters": 6,
+   "charactersWithSpaces": 6
+  },
+  {
+   "id": "dd-trail",
+   "text": "word--",
+   "words": 1,
+   "characters": 6,
+   "charactersWithSpaces": 6
+  },
+  {
+   "id": "triple-hyphen-attached",
+   "text": "word---word",
+   "words": 2,
+   "characters": 11,
+   "charactersWithSpaces": 11
+  },
+  {
+   "id": "hyphen-chain",
+   "text": "a-b-c",
+   "words": 1,
+   "characters": 5,
+   "charactersWithSpaces": 5
+  },
+  {
+   "id": "en-alone-quote",
+   "text": "–\"",
+   "words": 1,
+   "characters": 2,
+   "charactersWithSpaces": 2
+  },
+  {
+   "id": "dots3",
+   "text": "...",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "period-alone",
+   "text": ".",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "fw-space-alone",
+   "text": "　",
+   "words": 0,
+   "characters": 0,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "cjk-punct-alone",
+   "text": "。",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "fw-excl-latin",
+   "text": "a！b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "middle-dot-jp",
+   "text": "・",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "wave-dash",
+   "text": "〜",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "fw-hyphen",
+   "text": "－",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "choonpu",
+   "text": "ー",
+   "words": 1,
+   "characters": 1,
+   "charactersWithSpaces": 1
+  },
+  {
+   "id": "hw-comma-cjk",
+   "text": "世,界",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "cjk-period-latin",
+   "text": "世.界",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "para-in-cjk",
+   "text": "世\r界",
+   "words": 2,
+   "characters": 2,
+   "charactersWithSpaces": 2
+  },
+  {
+   "id": "h4",
+   "text": "a----b",
+   "words": 2,
+   "characters": 6,
+   "charactersWithSpaces": 6
+  },
+  {
+   "id": "h-chain2",
+   "text": "a--b--c",
+   "words": 3,
+   "characters": 7,
+   "charactersWithSpaces": 7
+  },
+  {
+   "id": "colbreak",
+   "text": "a\u000eb",
+   "words": 2,
+   "characters": 2,
+   "charactersWithSpaces": 2
+  },
+  {
+   "id": "rlm",
+   "text": "a‏b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "alm",
+   "text": "a؜b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3
+  },
+  {
+   "id": "mid-word-emdash-spaces",
+   "text": "a— b",
+   "words": 2,
+   "characters": 3,
+   "charactersWithSpaces": 4
+  },
+  {
+   "id": "thai-sp",
+   "text": "สวัสดี ครับ",
+   "words": 2,
+   "characters": 10,
+   "charactersWithSpaces": 11
+  }
+ ],
+ "deviations": [
+  {
+   "id": "LSEP-2028",
+   "text": "a b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 3,
+   "reason": "U+2028 is treated as a line break; Word counts it as an East Asian character"
+  },
+  {
+   "id": "PSEP-2029",
+   "text": "a b",
+   "words": 3,
+   "characters": 3,
+   "charactersWithSpaces": 3,
+   "reason": "U+2029 is treated as a paragraph break; Word counts it as an East Asian character"
+  },
+  {
+   "id": "cyrillic",
+   "text": "Привет мир",
+   "words": 9,
+   "characters": 9,
+   "charactersWithSpaces": 10,
+   "reason": "Cyrillic is always alphabetic; Word flipped it to per-letter East Asian because of earlier text in the same document"
+  },
+  {
+   "id": "attached:203B",
+   "text": "a※b",
+   "words": 1,
+   "characters": 3,
+   "charactersWithSpaces": 3,
+   "reason": "※ follows fresh-document Word (East Asian, 3 words); this row was measured in a reused document"
+  },
+  {
+   "id": "alone:FE0F",
+   "text": "️",
+   "words": 1,
+   "characters": 0,
+   "charactersWithSpaces": 0,
+   "reason": "A lone variation selector is 0 words; Word counts it as 1"
+  },
+  {
+   "id": "spaced:FE0F",
+   "text": "a ️ b",
+   "words": 3,
+   "characters": 2,
+   "charactersWithSpaces": 4,
+   "reason": "A lone variation selector is 0 words; Word counts it as 1"
+  },
+  {
+   "id": "greek",
+   "text": "Γειά σου",
+   "words": 2,
+   "characters": 7,
+   "charactersWithSpaces": 8,
+   "reason": "Greek is always alphabetic; Word flipped it to per-letter East Asian because of earlier text in the same document"
+  }
+ ]
+}

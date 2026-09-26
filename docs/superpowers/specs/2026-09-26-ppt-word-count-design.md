@@ -96,6 +96,7 @@ export function countChunks(strings) → counts   // sum of countText over each 
 export async function readSelection(context)
 SelectionSnapshot = {
   source: "highlight" | "shapes" | "none",
+  selectedCount: number,                    // shapes selected, including pictures (for "3 shapes selected")
   items: Array<{ id: string, name: string, kind: "highlight" | "text" | "table" | "group", texts: string[] }>,
   unsupported: Array<{ id: string, name: string, type: string }>,   // charts, SmartArt, diagrams, OLE
 }
@@ -105,7 +106,7 @@ Algorithm. It needs PowerPointApi 1.10 and uses only documented calls:
 2. **Highlight rule:** if the range is not null, its text is non-empty and at most one shape is selected, return `source: "highlight"` with one item (named after the selected shape if there is one).
 3. **Shapes:** walk the selection breadth-first, **one sync per group-nesting level plus one for text**. Track a `seen` set of shape ids so a group and a child selected together are never counted twice. Each descendant's texts go to its top-level selected shape's item. Dispatch on `type`:
    - `Group` → `shape.group.shapes.load("items/id,items/name,items/type,items/level")` (only after type is known).
-   - `Table` → `shape.getTable().load("values,rowCount,columnCount")` + `table.getMergedAreas().load("items/rowIndex,items/columnIndex,items/rowCount,items/columnCount")`. Each cell is one chunk. Cells covered by a merge (all but the top-left of each area) are skipped.
+   - `Table` → `shape.getTable().load("rowCount,columnCount")`, then `table.getCellOrNullObject(r, c).load("text")` for every cell in the next round. Each cell is one chunk. Cells hidden under a merge are null objects (documented) and are skipped. `Table.values` isn't used because what it reports for merged-over cells is undocumented.
    - `Chart`, `SmartArt`, `Diagram`, `Ole` → recorded in `unsupported`.
    - `Image`, `Line`, `Media`, `Model3D`, `Ink`, `ContentApp`, `Graphic` → no text; ignored.
    - anything else (TextBox, Placeholder, GeometricShape, Callout, Freeform, Unsupported…) → `shape.getTextFrameOrNullObject().load("hasText")`, then in a follow-up sync `textFrame.textRange.load("text")` for non-null frames with text. For `Placeholder`, also load `placeholderFormat.containedType`. If the frame is null and `containedType === "Table"` (or `type === "Unsupported"`), try `getTable()` in its own guarded sync. If that also fails, record it as unsupported.
