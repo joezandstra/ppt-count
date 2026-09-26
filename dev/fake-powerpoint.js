@@ -440,12 +440,16 @@ export function createFakeHost(scenario = { highlight: null, selected: [] }, { p
         isSetSupported: (name, version = "1.1") => name === "PowerPointApi" && compareVersions(apiVersion, version) >= 0,
       },
       document: {
-        /** Plain-text selection: the scenario's `selectedText` (default ""); `hangSelectedData` never answers. */
+        /**
+         * Plain-text selection: the scenario's `selectedText`, or else its highlight
+         * (or "" with none). `hangSelectedData` makes it never answer.
+         */
         getSelectedDataAsync(coercionType, optionsOrCallback, maybeCallback) {
           const callback = typeof optionsOrCallback === "function" ? optionsOrCallback : maybeCallback;
           host.stats.selectedDataCalls++;
           if (host.hangSelectedData) return;
-          const value = host.scenario.selectedText ?? "";
+          const { selectedText, highlight } = host.scenario;
+          const value = selectedText ?? (typeof highlight === "string" ? highlight : "");
           setTimeout(() => callback?.({ status: "succeeded", value }), host.latencyMs);
         },
         addHandlerAsync(eventType, handler, optionsOrCallback, maybeCallback) {

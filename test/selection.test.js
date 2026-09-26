@@ -73,6 +73,25 @@ test("an empty highlight (just a cursor) counts the whole shape", async () => {
   assert.deepEqual(snapshot.items[0].texts, [SENTENCE]);
 });
 
+test("a cursor inside a word (reported as that word) counts the whole box", async () => {
+  const { snapshot } = await read(SCENARIOS.cursor, { selectedText: selectedText("") });
+  assert.equal(snapshot.source, "shapes");
+  assert.deepEqual(snapshot.items, [{ id: "103", name: "TextBox 3", kind: "text", texts: [SENTENCE] }]);
+});
+
+test("a double-clicked word is still a highlight", async () => {
+  const { snapshot } = await read({ highlight: "quick", selected: SCENARIOS.textBox.selected }, { selectedText: selectedText("quick") });
+  assert.equal(snapshot.source, "highlight");
+  assert.deepEqual(snapshot.items[0].texts, ["quick"]);
+});
+
+test("without a plain-text selection to check against, the range is trusted", async () => {
+  for (const options of [{ selectedText: selectedText(null) }, {}]) {
+    const { snapshot } = await read({ highlight: "quick", selected: SCENARIOS.textBox.selected }, options);
+    assert.equal(snapshot.source, "highlight");
+  }
+});
+
 test("a highlight is ignored when several shapes are selected", async () => {
   const { snapshot } = await read({ highlight: "Quarterly", selected: SCENARIOS.several.selected });
   assert.equal(snapshot.source, "shapes");
@@ -283,18 +302,19 @@ test("a text range that fails to load doesn't break the read", async () => {
   assert.deepEqual(snapshot.items[0].texts, ["Q1"]);
 });
 
-test("the plain-text selection is only asked for when one table is selected", async () => {
+test("the plain-text selection is only asked for with one table or a highlight", async () => {
   let calls = 0;
   const counting = async () => {
     calls++;
     return "x";
   };
-  for (const key of ["textBox", "several", "group", "chart", "picture", "nothing", "highlight"]) {
+  for (const key of ["textBox", "several", "group", "chart", "picture", "nothing"]) {
     await read(SCENARIOS[key], { selectedText: counting });
   }
   assert.equal(calls, 0);
   await read(SCENARIOS.tablePlaceholder, { selectedText: counting });
-  assert.equal(calls, 1);
+  await read(SCENARIOS.highlight, { selectedText: counting });
+  assert.equal(calls, 2);
 });
 
 test("tableCellTexts skips cells hidden under a merge", () => {

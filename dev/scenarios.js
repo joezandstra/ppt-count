@@ -29,6 +29,13 @@ export const SCENARIOS = {
   textBox: { label: "A text box", highlight: null, selected: [textBox] },
   title: { label: "A title placeholder", highlight: null, selected: [titlePlaceholder] },
   highlight: { label: "Highlighted text", highlight: "quick brown fox", selected: [textBox] },
+  cursor: {
+    label: "Cursor inside a word (nothing highlighted)",
+    // What PowerPoint for Mac reports: the word around the cursor as the range, but no plain-text selection.
+    highlight: "quick",
+    selectedText: "",
+    selected: [textBox],
+  },
   several: { label: "Three shapes (one is a picture)", highlight: null, selected: [titlePlaceholder, bodyPlaceholder, picture] },
   table: { label: "Table with merged cells", highlight: null, selected: [table] },
   tableHighlight: {

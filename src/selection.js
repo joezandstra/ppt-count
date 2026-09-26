@@ -24,7 +24,8 @@ const UNREADABLE = new Set(["Chart", "SmartArt", "Diagram", "Ole"]);
  * @param {{ selectedText?: () => Promise<string | null> }} [options]
  *   `selectedText` returns the selection as plain text through Office's older
  *   common API (Office.context.document.getSelectedDataAsync). It's the only way
- *   to see text highlighted inside a table cell; see readTable.
+ *   to see text highlighted inside a table cell (see readTable), and to tell a
+ *   cursor from a highlighted word.
  * @returns {Promise<SelectionSnapshot>}
  */
 export async function readSelection(context, { selectedText } = {}) {
@@ -60,9 +61,15 @@ export async function readSelection(context, { selectedText } = {}) {
       unsupported: [],
     };
     if (!shape) return highlight;
+    // With just a cursor in a word, PowerPoint for Mac and Windows reports the whole
+    // word as the range (office-js #6839), but the plain-text selection is empty
+    // (seen on Mac 16.113), so a cursor counts the whole box. If the plain-text
+    // selection isn't available (null), the range is trusted.
+    const plain = selectedText ? await selectedText() : null;
+    const whole = await readShapes(context, shapes);
+    if (plain === "") return whole;
     // PowerPoint for Mac also reports a whole selected box as "selected text"
     // (seen on 16.113). If the range holds all of the shape's text, it's the shape.
-    const whole = await readShapes(context, shapes);
     return coversAllText(rangeText, whole) ? whole : highlight;
   }
   if (shapes.length === 0) return { source: "none", selectedCount: 0, items: [], unsupported: [] };

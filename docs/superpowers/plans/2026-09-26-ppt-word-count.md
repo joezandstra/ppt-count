@@ -3803,3 +3803,12 @@ Implementation:
 - The fake gained `getSelectedDataAsync`, `CoercionType`, `highlight: { error }`, `hangSelectedData` and a `tableHighlight` scenario.
 
 Verified live: "1,200" → 1/5/5; "combined total" in the merged cell → 2/13/14; one cell → 2/10/11; whole table → 11/54/59; neighbouring text box unaffected.
+
+## Addendum: a cursor inside a word (2026-09-26)
+
+Probed live on PowerPoint for Mac 16.113. The user clicked once inside "platform", then double-clicked it:
+- Cursor only: `getSelectedTextRangeOrNullObject()` returned "platform" (start 20, length 8), which is office-js #6839. `getSelectedDataAsync(Text)` returned "".
+- Double-click: the range returned "platform", and `getSelectedDataAsync(Text)` returned "platform".
+- Nothing selected: `getSelectedDataAsync(Text)` failed with code 1001, "The current selection is not supported."
+
+Implementation: in the highlight branch (non-empty range, one shape), `readSelection` asks `selectedText()`. An empty string means only a cursor, so the whole shape is counted. `null` (unavailable or failed) keeps the range. The help page no longer lists the limitation. PowerPoint for Windows has the same range bug per #6839, and the fix relies on the same common API there, but it hasn't been tested on Windows. The fake's plain-text selection now defaults to the scenario's highlight. New scenario: `cursor`.
