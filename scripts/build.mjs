@@ -1,7 +1,7 @@
 // Builds dist/: the files to host (for example on GitHub Pages) plus the
 // production manifest that colleagues install.
 //
-//   BASE_URL=https://you.github.io/ppt-word-count npm run build
+//   BASE_URL=https://joezandstra.github.io/ppt-count npm run build
 //
 // The production manifest is manifest.xml with the hosting address, its own Id
 // (so it can sit next to the dev copy) and the name "Word Count". Every local
@@ -26,7 +26,7 @@ export function normalizeBaseUrl(baseUrl) {
   try {
     url = new URL(String(baseUrl ?? ""));
   } catch {
-    throw new Error(`BASE_URL must be a full web address, like https://you.github.io/ppt-word-count (got "${baseUrl ?? ""}").`);
+    throw new Error(`BASE_URL must be a full web address, like https://joezandstra.github.io/ppt-count (got "${baseUrl ?? ""}").`);
   }
   if (url.protocol !== "https:") throw new Error("BASE_URL must start with https:// because Office only loads add-ins over HTTPS.");
   if (url.hostname === "localhost" || url.hostname === "127.0.0.1") throw new Error("BASE_URL can't be localhost; use the hosting address.");

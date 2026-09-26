@@ -1,5 +1,5 @@
 {
-  "name": "ppt-word-count",
+  "name": "ppt-count",
   "version": "1.0.0",
   "description": "PowerPoint add-in that counts words and characters in the selected text, shapes, tables and groups.",
   "private": true,

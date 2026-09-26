@@ -48,10 +48,10 @@ Then open <http://localhost:3101/dev/preview.html>. This runs the real pane agai
 
 Colleagues can't use the local version, so the add-in has to live on the web. The project is set up to publish itself to **GitHub Pages** for free.
 
-1. **Put the project on GitHub** as a *public* repository named `ppt-word-count`. (On GitHub's free plan, Pages only works for public repositories. There's nothing private in this project.)
+1. **Put the project on GitHub** as a *public* repository named `ppt-count`. (On GitHub's free plan, Pages only works for public repositories. There's nothing private in this project.)
 2. **Turn on Pages:** on GitHub, open the repository's **Settings › Pages** and set **Source** to **GitHub Actions**.
 3. **Publish:** every time changes reach the `main` branch, GitHub builds and publishes the add-in; watch it under the **Actions** tab. The first time, if the run failed because Pages wasn't turned on yet, choose **Re-run all jobs**.
-4. **Send colleagues the help page:** `https://<your-github-username>.github.io/ppt-word-count/help.html#install`. It has the download link and step-by-step install instructions for Mac, Windows and the web, and for a Microsoft 365 administrator who wants to install it for everyone.
+4. **Send colleagues the help page:** `https://joezandstra.github.io/ppt-count/help.html#install`. It has the download link and step-by-step install instructions for Mac, Windows and the web, and for a Microsoft 365 administrator who wants to install it for everyone.
 
 ### Updating
 
@@ -71,7 +71,7 @@ Colleagues can't use the local version, so the add-in has to live on the web. Th
 - `npm test`: unit tests (`node --test`, no dependencies needed).
 - `npm run serve`: runs the local server in the foreground, printing each request plus start-up steps and errors reported by the pane (`src/devlog.js`, active on localhost only). It's handy when a pane stays blank. (`npm start` runs the same server in the background with no output.)
 - `npm run validate`: checks `manifest.xml` with Microsoft's online validator.
-- `BASE_URL=https://example.github.io/ppt-word-count npm run build`: builds `dist/` for hosting, including `dist/word-count-manifest.xml`.
+- `BASE_URL=https://joezandstra.github.io/ppt-count npm run build`: builds `dist/` for hosting, including `dist/word-count-manifest.xml`.
 - Design and research: [`docs/superpowers/specs/2026-09-26-ppt-word-count-design.md`](docs/superpowers/specs/2026-09-26-ppt-word-count-design.md). Implementation plan: [`docs/superpowers/plans/2026-09-26-ppt-word-count.md`](docs/superpowers/plans/2026-09-26-ppt-word-count.md).
 
 | Path | What it is |
