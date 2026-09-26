@@ -5,6 +5,7 @@
   "private": true,
   "type": "module",
   "license": "MIT",
+  "author": "Joe Zandstra <joezandstra@gmail.com>",
   "engines": {
     "node": ">=20"
   },

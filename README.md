@@ -85,3 +85,9 @@ Colleagues can't use the local version, so the add-in has to live on the web. Th
 | `scripts/` | Local server, production build, icon generator |
 | `test/` | Unit tests, including 432 counts measured in Microsoft Word |
 | `manifest.xml` | Add-in definition for local development |
+
+## Licence
+
+© 2026 Joe Zandstra ([joezandstra@gmail.com](mailto:joezandstra@gmail.com)). Released under the [MIT Licence](LICENSE): free to use, provided "as is", without warranty of any kind. The author isn't liable for any loss or damage arising from its use.
+
+Not affiliated with or endorsed by Microsoft. Microsoft, PowerPoint and Word are trademarks of the Microsoft group of companies.

@@ -763,6 +763,25 @@ code {
   font-weight: 650;
 }
 
+.footer__legal {
+  max-width: 76ch;
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+
+.footer__legal p {
+  margin: 0 0 8px;
+}
+
+.footer__author {
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 600;
+}
+
 /* ---------- Small screens ---------- */
 
 @media (max-width: 900px) {
