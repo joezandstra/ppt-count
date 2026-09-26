@@ -7,6 +7,24 @@
    buttons use deeper shades of the same colours so they stay readable (checked for
    WCAG AA contrast in light and dark mode). */
 
+/* Fonts are hosted with the site (SIL Open Font License, see assets/fonts/*-OFL.txt)
+   rather than loaded from Google, so the page never waits on a blocked third party. */
+@font-face {
+  font-family: "Figtree";
+  src: url("assets/fonts/figtree-latin.woff2") format("woff2");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Fraunces";
+  src: url("assets/fonts/fraunces-latin.woff2") format("woff2");
+  font-weight: 500 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 @property --n {
   syntax: "<integer>";
   inherits: false;
@@ -36,6 +54,7 @@
   --body: "Figtree", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
   --pane-bg: #ffffff;
   --pane-tile: #f6f4f3;
+  --focus: var(--accent-a); /* the bright orange is too faint as a focus ring on cream */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -52,6 +71,12 @@
     --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 16px 40px -16px rgb(0 0 0 / 0.7);
     --pane-bg: #292929;
     --pane-tile: #333131;
+    --focus: var(--glow-a);
+  }
+
+  /* Softer glow in the dark, so text over it stays readable at tablet widths. */
+  .hero__glow {
+    opacity: 0.4;
   }
 }
 
@@ -96,7 +121,7 @@ a:hover {
 }
 
 :focus-visible {
-  outline: 3px solid var(--glow-a);
+  outline: 3px solid var(--focus);
   outline-offset: 3px;
   border-radius: 6px;
 }
@@ -767,6 +792,15 @@ code {
     font-size: 16px;
   }
 
+  /* Room for the pane below the highlighted words on the narrowest phones. */
+  .demo {
+    height: min(150vw, 560px);
+  }
+
+  .demo__pair .demo__stat {
+    padding: 8px;
+  }
+
   .cards {
     grid-template-columns: 1fr;
   }
@@ -782,6 +816,43 @@ code {
   .button {
     width: 100%;
     justify-content: center;
+  }
+}
+
+@media print {
+  /* Print the finished state: the load animations start from transparent. */
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+  }
+
+  body::before,
+  .hero__glow,
+  .skip,
+  .demo {
+    display: none;
+  }
+
+  .card,
+  .platform--featured,
+  .button--primary {
+    box-shadow: none;
+  }
+
+  /* Gradient text and white-on-gradient buttons vanish without printed backgrounds. */
+  .hero__title-accent,
+  .demo__stat--words .demo__num {
+    background: none;
+    color: #c2410c;
+  }
+
+  .button--primary,
+  .badge {
+    background: none;
+    color: #2a1a14;
+    border: 1.5px solid currentColor;
+    box-shadow: none;
   }
 }
 
